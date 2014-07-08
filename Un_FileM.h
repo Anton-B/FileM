@@ -19,14 +19,14 @@ __published:	// IDE-managed Components
         TImageList *ImgL1;
         void __fastcall Button1Click(TObject *Sender);
         void __fastcall ListFiles(AnsiString path, TStrings* List);
+        void __fastcall Lv1DblClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;
         TListItem  *ListItem;
         TSearchRec sr;
-        AnsiString path;
-        TStringList *LDir;
-        TStringList *LFile;
+        AnsiString disk, dl; // получаем литеру диска;
+        TStringList *LDir, *LFile;
         int cD,cF;
         __fastcall TFr_Main(TComponent* Owner);
 };

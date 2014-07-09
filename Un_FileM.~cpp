@@ -15,6 +15,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 {
   LDir=new TStringList;
   LFile=new TStringList;
+  LExt=new TStringList;
   DiskList(Owner);
 }
 //---------------------------------------------------------------------------
@@ -24,6 +25,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   Lv1->Clear();
   LDir->Clear();
   LDir->Clear();
+  LExt->Clear();
   path="";
   
   int BufferSize = GetLogicalDriveStrings(0, NULL);
@@ -77,6 +79,11 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
+  if (((TListView*)Sender)->Selected->ImageIndex==-1)
+  {
+    ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
+    return;
+  }
   if ((fl==-1)&&(((TListView*)Sender)->Selected->Caption=="<--"))
   {
     DiskList(Owner);
@@ -116,6 +123,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
         /*AnsiString Ext=ExtractFileExt(sr.Name).UpperCase();
         if (Ext==".cpp")
           List->Add(path+sr.Name);*/
+        LExt->Add(ExtractFileExt(sr.Name).UpperCase());
       }
     } while (FindNext(sr) == 0);
     FindClose(sr);
@@ -134,13 +142,14 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     }
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LDir->Strings[i];
+    ListItem->SubItems->Add("Папка");
     ListItem->ImageIndex=0;
-
   }
   for (int i=0;i<LFile->Count;i++)
   {
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LFile->Strings[i];
+    ListItem->SubItems->Add(LExt->Strings[i]);
     ListItem->ImageIndex=-1;
   }
   LDir->Clear();
@@ -175,6 +184,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem->Caption = Names[i][0];
     ListItem->SubItems->Add(Names[i][1]);
   }*/
+
 
 
 

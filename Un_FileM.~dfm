@@ -28,6 +28,7 @@ object Fr_Main: TFr_Main
         Width = 155
       end
       item
+        Alignment = taCenter
         Caption = #1058#1080#1087
         Width = 130
       end>

@@ -25,7 +25,7 @@ public:		// User declarations
         TListItem  *ListItem;
         TSearchRec sr;
         AnsiString dl, path;
-        TStringList *LDir, *LFile;
+        TStringList *LDir, *LFile, *LExt;
         int fl;
 
         __fastcall TFr_Main(TComponent* Owner);

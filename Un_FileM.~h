@@ -10,6 +10,7 @@
 #include <Menus.hpp>
 #include <ComCtrls.hpp>
 #include <ImgList.hpp>
+#include <FileCtrl.hpp>
 //---------------------------------------------------------------------------
 class TFr_Main : public TForm
 {
@@ -18,8 +19,9 @@ __published:	// IDE-managed Components
         TButton *Button1;
         TImageList *ImgL1;
         void __fastcall Button1Click(TObject *Sender);
-        void __fastcall ListFiles(AnsiString path, TStrings* List);
+        
         void __fastcall Lv1DblClick(TObject *Sender);
+        void __fastcall FormDestroy(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;

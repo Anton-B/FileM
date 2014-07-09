@@ -14,7 +14,6 @@ object Fr_Main: TFr_Main
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Lv1: TListView

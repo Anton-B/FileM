@@ -65,8 +65,6 @@ void __fastcall TFr_Main::Button1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-
-
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
   disk=((TListView*)Sender)->Selected->Caption;
@@ -118,11 +116,4 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-
-void __fastcall TFr_Main::FormDestroy(TObject *Sender)
-{
-  //delete [] Buffer;
-  //delete DiskList;
-}
-//---------------------------------------------------------------------------
 

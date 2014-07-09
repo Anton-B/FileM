@@ -17,9 +17,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   char *Buffer = new char[BufferSize];
   TStringList *DiskList = new TStringList;
   GetLogicalDriveStrings(BufferSize, Buffer);
-  
   int DiskCount = (BufferSize - 1) / 4 ;
-
   for(int i = 0; i < DiskCount; i++)
   {
     char DiskString[4];
@@ -66,8 +64,6 @@ void __fastcall TFr_Main::Button1Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
-
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
@@ -119,7 +115,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
   Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
-
 
 void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 {

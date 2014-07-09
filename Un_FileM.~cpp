@@ -71,39 +71,42 @@ void __fastcall TFr_Main::Button1Click(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
-  ShowMessage(path);
+  if (((TListView*)Sender)->Selected->Caption=="<-")
+    path+="..\\";
+  else
+  {
   if (fl==0)
     path=((TListView*)Sender)->Selected->Caption;
   else
     path+=((TListView*)Sender)->Selected->Caption+"\\";
+  }
   fl=1;
   cD=0;
   cF=0;
-   ShowMessage(path);
   if (FindFirst(path+"\*.*", faAnyFile, sr) == 0)
   {
     do
     {
       if (sr.Attr & faDirectory)
       {
-        LDir->Add(sr.Name);
-        cD++;
-        //ShowMessage("Dir:\n"+sr.Name);
-        /*if (sr.Name!=".")
-        if (sr.Name!="..")
+        if (sr.Name!=".")
+        {
+          if (sr.Name=="..")
+            sr.Name="<-";
+          LDir->Add(sr.Name);
+          cD++;
+        }
+        /*if (sr.Name!="..")
         {        }*/
       }
       else
       {
         LFile->Add(sr.Name);
         cF++;
-        //ShowMessage("File:\n"+sr.Name);
         /*AnsiString Ext=ExtractFileExt(sr.Name).UpperCase();
         if (Ext==".cpp")
           List->Add(path+sr.Name);*/
-
       }
-
     } while (FindNext(sr) == 0);
     FindClose(sr);
   }
@@ -121,6 +124,8 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem->ImageIndex=-1;
   }
   Application->ProcessMessages();
+  LDir->Clear();
+  LFile->Clear();
 }
 //---------------------------------------------------------------------------
 

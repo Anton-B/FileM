@@ -25,6 +25,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   LDir->Clear();
   LDir->Clear();
   path="";
+  
   int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
   TStringList *DiskList = new TStringList;
@@ -37,6 +38,35 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
     ListItem = Lv1->Items->Add();
     ListItem->Caption=DiskString;
     ListItem->ImageIndex=1;
+    
+    int DriveType = GetDriveType(DiskString);
+    switch(DriveType)
+    {
+    case DRIVE_UNKNOWN:
+      ListItem->SubItems->Add("Неизвестен");
+      break;
+    case DRIVE_NO_ROOT_DIR:
+      ListItem->SubItems->Add("Отсутствует");
+      break;
+    case DRIVE_REMOVABLE:
+      ListItem->SubItems->Add("Сменный");
+      break;
+    case DRIVE_FIXED:
+      ListItem->SubItems->Add("Жесткий");
+      break;
+    case DRIVE_REMOTE:
+      ListItem->SubItems->Add("Сетевой");
+      break;
+    case DRIVE_CDROM:
+      ListItem->SubItems->Add("CD-ROM");
+      break;
+    case DRIVE_RAMDISK:
+      ListItem->SubItems->Add("RAM");
+      break;
+    default:
+      ListItem->SubItems->Add("Неизвестен");
+      break;
+    }
   }
   delete [] Buffer;
   delete DiskList;
@@ -65,8 +95,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
       path+=((TListView*)Sender)->Selected->Caption+"\\";
   }
   fl=1;
-  cD=0;
-  cF=0;
   if (FindFirst(path+"\*.*", faAnyFile, sr) == 0)
   {
     do
@@ -78,7 +106,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
           if (sr.Name=="..")
             sr.Name="<--";
           LDir->Add(sr.Name);
-          cD++;
         }
         /*if (sr.Name!="..")
         {        }*/
@@ -86,7 +113,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
       else
       {
         LFile->Add(sr.Name);
-        cF++;
         /*AnsiString Ext=ExtractFileExt(sr.Name).UpperCase();
         if (Ext==".cpp")
           List->Add(path+sr.Name);*/
@@ -95,7 +121,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     FindClose(sr);
   }
   Lv1->Clear();
-  for (int i=0;i<cD;i++)
+  for (int i=0;i<LDir->Count;i++)
   {
     if ((i==0)&&(LDir->Strings[i]!="<--"))
     {
@@ -109,8 +135,9 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LDir->Strings[i];
     ListItem->ImageIndex=0;
+
   }
-  for (int i=0;i<cF;i++)
+  for (int i=0;i<LFile->Count;i++)
   {
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LFile->Strings[i];
@@ -122,7 +149,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-//ListFiles("D:\\",Memo1->Lines);
   /*const char Names[6][2][10] =
    {{"Rubble","Barny"},
     {"Michael", "Johnson"},
@@ -130,11 +156,11 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     {"Silver", "HiHo"},
     {"Simpson", "Bart"},
     {"Squirrel", "Rockey"}};
- 
+
   TListColumn  *NewColumn;
   TListItem  *ListItem;
   TListView   *ListView = new TListView(this);
- 
+
   ListView->Parent = this;
   ListView->Align = alClient;
   ListView->ViewStyle = vsReport;
@@ -149,3 +175,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem->Caption = Names[i][0];
     ListItem->SubItems->Add(Names[i][1]);
   }*/
+
+
+

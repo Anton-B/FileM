@@ -24,9 +24,9 @@ public:		// User declarations
         TListColumn  *NewColumn;
         TListItem  *ListItem;
         TSearchRec sr;
-        AnsiString dl, path; // получаем литеру диска;
+        AnsiString dl, path;
         TStringList *LDir, *LFile;
-        int cD,cF,fl;
+        int fl;
 
         __fastcall TFr_Main(TComponent* Owner);
 };

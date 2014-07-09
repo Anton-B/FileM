@@ -13,7 +13,10 @@ TFr_Main *Fr_Main;
 __fastcall TFr_Main::TFr_Main(TComponent* Owner)
         : TForm(Owner)
 {
-  int BufferSize = GetLogicalDriveStrings(0, NULL);\
+  LPath=new TStringList;
+  LDir=new TStringList;
+  LFile=new TStringList;
+  int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
   TStringList *DiskList = new TStringList;
   GetLogicalDriveStrings(BufferSize, Buffer);
@@ -28,6 +31,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   }
   delete [] Buffer;
   delete DiskList;
+  fl=0;
 }
 //---------------------------------------------------------------------------
 
@@ -67,12 +71,16 @@ void __fastcall TFr_Main::Button1Click(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
-  disk=((TListView*)Sender)->Selected->Caption;
+  ShowMessage(path);
+  if (fl==0)
+    path=((TListView*)Sender)->Selected->Caption;
+  else
+    path+=((TListView*)Sender)->Selected->Caption+"\\";
+  fl=1;
   cD=0;
   cF=0;
-  LDir=new TStringList;
-  LFile=new TStringList;
-  if (FindFirst(disk+"*.*", faAnyFile, sr) == 0)
+   ShowMessage(path);
+  if (FindFirst(path+"\*.*", faAnyFile, sr) == 0)
   {
     do
     {
@@ -116,10 +124,4 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::FormDestroy(TObject *Sender)
-{
-  //delete [] Buffer;
-  //delete DiskList;
-}
-//---------------------------------------------------------------------------
 

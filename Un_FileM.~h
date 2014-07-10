@@ -11,8 +11,6 @@
 #include <ComCtrls.hpp>
 #include <ImgList.hpp>
 #include <FileCtrl.hpp>
-#include <fileutil.hpp>
-#include <filectrl.hpp>
 //---------------------------------------------------------------------------
 class TFr_Main : public TForm
 {

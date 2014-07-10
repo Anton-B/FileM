@@ -120,17 +120,11 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
           if (sr.Name=="..")
             sr.Name="<--";
           LDir->Add(sr.Name);
-
         }
-        /*if (sr.Name!="..")
-        {        }*/
       }
       else
       {
         LFile->Add(sr.Name);
-        /*AnsiString Ext=ExtractFileExt(sr.Name).UpperCase();
-        if (Ext==".cpp")
-          List->Add(path+sr.Name);*/
         LExt->Add(ExtractFileExt(sr.Name).UpperCase());
         struct stati64 statbuf;
         AnsiString p=path+sr.Name;
@@ -150,7 +144,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
   Lv1->Clear();
   if (Lv1->Columns->Count<=2)
   {
-
     NewColumn=Lv1->Columns->Add();
     NewColumn->Caption="Размер";
     NewColumn->Alignment=taCenter;
@@ -170,7 +163,6 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LDir->Strings[i];
     ListItem->SubItems->Add("Папка");
-
     ListItem->ImageIndex=0;
   }
   for (int i=0;i<LFile->Count;i++)

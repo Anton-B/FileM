@@ -16,6 +16,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   LDir=new TStringList;
   LFile=new TStringList;
   LExt=new TStringList;
+  LSize=new TStringList;
   DiskList(Owner);
 }
 //---------------------------------------------------------------------------
@@ -26,8 +27,13 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   LDir->Clear();
   LDir->Clear();
   LExt->Clear();
+  LSize->Clear();
+  if (Lv1->Columns->Count>2)
+  {
+    Lv1->Columns->Delete(2);
+  }
   path="";
-  
+
   int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
   TStringList *DiskList = new TStringList;
@@ -113,6 +119,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
           if (sr.Name=="..")
             sr.Name="<--";
           LDir->Add(sr.Name);
+
         }
         /*if (sr.Name!="..")
         {        }*/
@@ -124,11 +131,29 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
         if (Ext==".cpp")
           List->Add(path+sr.Name);*/
         LExt->Add(ExtractFileExt(sr.Name).UpperCase());
+
+
+        if (sr.Size>=1073741824)
+          LSize->Add(FloatToStr(sr.Size/1073741824)+" √¡");
+        else if (sr.Size>=1048576)
+          LSize->Add(FloatToStr(sr.Size/1048576)+" Ã¡");
+        else if (sr.Size>=1024)
+          LSize->Add(FloatToStr(sr.Size/1024)+"  ¡");
+        else if (sr.Size<1024)
+          LSize->Add(FloatToStr(sr.Size)+" ¡");
       }
     } while (FindNext(sr) == 0);
     FindClose(sr);
   }
   Lv1->Clear();
+  if (Lv1->Columns->Count<=2)
+  {
+
+    NewColumn=Lv1->Columns->Add();
+    NewColumn->Caption="–‡ÁÏÂ";
+    NewColumn->Alignment=taCenter;
+    NewColumn->Width=Lv1->Column[1]->Width;
+  }
   for (int i=0;i<LDir->Count;i++)
   {
     if ((i==0)&&(LDir->Strings[i]!="<--"))
@@ -143,6 +168,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LDir->Strings[i];
     ListItem->SubItems->Add("œ‡ÔÍ‡");
+
     ListItem->ImageIndex=0;
   }
   for (int i=0;i<LFile->Count;i++)
@@ -150,11 +176,14 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem = Lv1->Items->Add();
     ListItem->Caption = LFile->Strings[i];
     ListItem->SubItems->Add(LExt->Strings[i]);
+    //ListItem->SubItems->Add(LDate->Strings[LDir->Count+i]);
+    ListItem->SubItems->Add(LSize->Strings[i]);
     ListItem->ImageIndex=-1;
   }
   LDir->Clear();
   LFile->Clear();
   LExt->Clear();
+  LSize->Clear();
   Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
@@ -185,7 +214,4 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem->Caption = Names[i][0];
     ListItem->SubItems->Add(Names[i][1]);
   }*/
-
-
-
 

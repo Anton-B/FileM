@@ -2,6 +2,7 @@
 
 #include <vcl.h>
 #include <fstream.h>
+#include <sys\stat.h>
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -131,16 +132,17 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
         if (Ext==".cpp")
           List->Add(path+sr.Name);*/
         LExt->Add(ExtractFileExt(sr.Name).UpperCase());
-
-
-        if (sr.Size>=1073741824)
-          LSize->Add(FloatToStr(sr.Size/1073741824)+" รม");
-        else if (sr.Size>=1048576)
-          LSize->Add(FloatToStr(sr.Size/1048576)+" ฬม");
-        else if (sr.Size>=1024)
-          LSize->Add(FloatToStr(sr.Size/1024)+" สม");
-        else if (sr.Size<1024)
-          LSize->Add(FloatToStr(sr.Size)+" ม");
+        struct stati64 statbuf;
+        AnsiString p=path+sr.Name;
+        _stati64(p.c_str(), &statbuf);
+        if (statbuf.st_size>=1073741824)
+          LSize->Add(FloatToStr(statbuf.st_size/1073741824)+" รม");
+        else if (statbuf.st_size>=1048576)
+          LSize->Add(FloatToStr(statbuf.st_size/1048576)+" ฬม");
+        else if (statbuf.st_size>=1024)
+          LSize->Add(FloatToStr(statbuf.st_size/1024)+" สม");
+        else if (statbuf.st_size<1024)
+          LSize->Add(FloatToStr(statbuf.st_size)+" ม");
       }
     } while (FindNext(sr) == 0);
     FindClose(sr);
@@ -214,4 +216,8 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     ListItem->Caption = Names[i][0];
     ListItem->SubItems->Add(Names[i][1]);
   }*/
+
+
+
+
 

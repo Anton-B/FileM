@@ -37,7 +37,7 @@ public:		// User declarations
         TListColumn  *NewColumn;
         TListItem  *ListItem;
         TSearchRec sr;
-        AnsiString dl, path, cpPath;
+        AnsiString dl, path, cpPath, file;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath;
         int fl;
         char cFrom[MAX_PATH];

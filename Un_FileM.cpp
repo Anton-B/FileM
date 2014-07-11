@@ -207,30 +207,27 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 
 void __fastcall TFr_Main::Copy(TObject *Sender)
 {
-  //={0};
-  cpPath=path;
-  if (Lv1->Selected->ImageIndex==0)
-  {
-    cpPath+=Lv1->Selected->Caption;
-    strcpy(cFrom,cpPath.c_str());
-  }
+  if (Lv1->Selected->ImageIndex==-1)
+    file= Lv1->Selected->Caption;
+  cpPath=path+Lv1->Selected->Caption;
 }
 
 void __fastcall TFr_Main::Paste(TObject *Sender)
 {
-
-  SHFILEOPSTRUCT fos;
-  memset(&fos,0,sizeof(SHFILEOPSTRUCT));
-  fos.hwnd = Application->Handle;
-  fos.wFunc = FO_COPY;
-  fos.pFrom = cFrom;
-  fos.pTo = path.c_str();
-  fos.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMMKDIR;
-  SHFileOperation(&fos);
-
-  //else
-  //{
-
-  //}
+  if (file=="")
+  {
+    SHFILEOPSTRUCT fos;
+    memset(&fos,0,sizeof(SHFILEOPSTRUCT));
+    fos.hwnd = Application->Handle;
+    fos.wFunc = FO_COPY;
+    fos.pFrom = cpPath.c_str();
+    fos.pTo = path.c_str();
+    fos.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMMKDIR;
+    SHFileOperation(&fos);
+  }
+  else
+    CopyFile(cpPath.c_str(),(path+file).c_str(),1);
+  file="";
+  cpPath="";
   FileList(Owner);
 }

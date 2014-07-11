@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 211
-  Top = 182
+  Left = 330
+  Top = 340
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -194,7 +194,7 @@ object Fr_Main: TFr_Main
         OnClick = DiskList
       end
     end
-    object N6: TMenuItem
+    object MenuEdit: TMenuItem
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
       object N1: TMenuItem
         Caption = #1042#1099#1088#1077#1079#1072#1090#1100
@@ -216,6 +216,7 @@ object Fr_Main: TFr_Main
       object N4: TMenuItem
         Caption = #1059#1076#1072#1083#1080#1090#1100
         ShortCut = 8238
+        OnClick = Del
       end
     end
   end

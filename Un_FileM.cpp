@@ -33,6 +33,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
+  MenuEdit->Enabled=false;
   Lv1->Clear();
   LDir->Clear();
   LDir->Clear();
@@ -92,6 +93,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
+  MenuEdit->Enabled=true;
   if (((TListView*)Sender)->Selected->ImageIndex==-1)
   {
     ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
@@ -211,6 +213,7 @@ void __fastcall TFr_Main::Copy(TObject *Sender)
     file= Lv1->Selected->Caption;
   cpPath=path+Lv1->Selected->Caption;
 }
+//---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Paste(TObject *Sender)
 {
@@ -231,3 +234,31 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   cpPath="";
   FileList(Owner);
 }
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Del(TObject *Sender)
+{
+  //MessageDlg("Вы уверены, что хотите удалить "+Lv1->Selected->Caption+"?",mtInformation,TMsgDlgButtons()<<mbYes<<mbNo,0);
+  if (MessageDlg("Вы уверены, что хотите удалить "+Lv1->Selected->Caption+"?",mtConfirmation,TMsgDlgButtons()<<mbYes<<mbNo,0)==mrYes)
+  {
+    if (Lv1->Selected->ImageIndex==1)
+    {
+      SHFILEOPSTRUCT sh;
+      sh.hwnd=Application->Handle;
+      sh.wFunc = FO_DELETE;
+      sh.pFrom = (path+Lv1->Selected->Caption+"\\").c_str();
+      sh.pTo = NULL;
+      sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
+      sh.hNameMappings = 0;
+      sh.lpszProgressTitle = NULL;
+      SHFileOperation(&sh);
+    }
+    else
+      DeleteFile((path+Lv1->Selected->Caption).c_str());
+  }
+  else
+    return;
+  FileList(Owner);
+}
+//---------------------------------------------------------------------------
+

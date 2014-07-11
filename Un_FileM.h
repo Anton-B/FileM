@@ -25,13 +25,14 @@ __published:	// IDE-managed Components
         TMenuItem *N3;
         TMenuItem *N4;
         TMenuItem *N5;
-        TMenuItem *N6;
+        TMenuItem *MenuEdit;
         void __fastcall Lv1DblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
         void __fastcall FileList(TObject *Sender);
         void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
+        void __fastcall Del(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;

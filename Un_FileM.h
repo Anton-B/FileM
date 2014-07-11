@@ -17,6 +17,9 @@ class TFr_Main : public TForm
 __published:	// IDE-managed Components
         TListView *Lv1;
         TImageList *ImgL1;
+        TMainMenu *MainMenu1;
+        TMenuItem *File1;
+        TMenuItem *MenuFileHome;
         void __fastcall Lv1DblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);

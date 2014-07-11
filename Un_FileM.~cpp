@@ -23,7 +23,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   {
     LPath->LoadFromFile("fm.fm");
     path=LPath->Strings[0];
-    Lv1DblClick(Owner);
+    FileList(Owner);
   }
   else
     DiskList(Owner);

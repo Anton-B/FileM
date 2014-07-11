@@ -4,7 +4,7 @@ object Fr_Main: TFr_Main
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
-  ClientHeight = 684
+  ClientHeight = 664
   ClientWidth = 1216
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,6 +12,7 @@ object Fr_Main: TFr_Main
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
   OnDestroy = FormDestroy
@@ -21,7 +22,7 @@ object Fr_Main: TFr_Main
     Left = 0
     Top = 0
     Width = 616
-    Height = 684
+    Height = 664
     Align = alLeft
     Columns = <
       item
@@ -180,5 +181,15 @@ object Fr_Main: TFr_Main
       95550000000000008003000000000000CA7F000000000000E0FF7FF800000000
       FFFF800000000000FFFFC0010000000000000000000000000000000000000000
       000000000000}
+  end
+  object MainMenu1: TMainMenu
+    Top = 632
+    object File1: TMenuItem
+      Caption = #1060#1072#1081#1083
+      object MenuFileHome: TMenuItem
+        Caption = #1044#1086#1084#1086#1081
+        OnClick = DiskList
+      end
+    end
   end
 end

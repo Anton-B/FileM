@@ -3,6 +3,7 @@
 #include <vcl.h>
 #include <fstream.h>
 #include <sys\stat.h>
+#include <clipbrd.hpp>
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -204,3 +205,32 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::Copy(TObject *Sender)
+{
+  //={0};
+  cpPath=path;
+  if (Lv1->Selected->ImageIndex==0)
+  {
+    cpPath+=Lv1->Selected->Caption;
+    strcpy(cFrom,cpPath.c_str());
+  }
+}
+
+void __fastcall TFr_Main::Paste(TObject *Sender)
+{
+
+  SHFILEOPSTRUCT fos;
+  memset(&fos,0,sizeof(SHFILEOPSTRUCT));
+  fos.hwnd = Application->Handle;
+  fos.wFunc = FO_COPY;
+  fos.pFrom = cFrom;
+  fos.pTo = path.c_str();
+  fos.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMMKDIR;
+  SHFileOperation(&fos);
+
+  //else
+  //{
+
+  //}
+  FileList(Owner);
+}

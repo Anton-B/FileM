@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 450
-  Top = 315
+  Left = 211
+  Top = 182
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -35,13 +35,16 @@ object Fr_Main: TFr_Main
         Width = 130
       end>
     ColumnClick = False
+    ReadOnly = True
+    RowSelect = True
     SmallImages = ImgL1
     TabOrder = 0
     ViewStyle = vsReport
     OnDblClick = Lv1DblClick
   end
   object ImgL1: TImageList
-    Top = 656
+    Left = 32
+    Top = 632
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
@@ -189,6 +192,30 @@ object Fr_Main: TFr_Main
       object MenuFileHome: TMenuItem
         Caption = #1044#1086#1084#1086#1081
         OnClick = DiskList
+      end
+    end
+    object N6: TMenuItem
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+      object N1: TMenuItem
+        Caption = #1042#1099#1088#1077#1079#1072#1090#1100
+        ShortCut = 16472
+      end
+      object N2: TMenuItem
+        Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
+        ShortCut = 16451
+        OnClick = Copy
+      end
+      object N3: TMenuItem
+        Caption = #1042#1089#1090#1072#1074#1080#1090#1100
+        ShortCut = 16470
+        OnClick = Paste
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object N4: TMenuItem
+        Caption = #1059#1076#1072#1083#1080#1090#1100
+        ShortCut = 8238
       end
     end
   end

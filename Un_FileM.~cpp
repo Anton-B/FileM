@@ -243,7 +243,7 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   {
     if (Lv1->Selected->ImageIndex==0)
     {
-      SHFILEOPSTRUCT sh;
+      /*SHFILEOPSTRUCT sh;
       sh.hwnd=Fr_Main->Handle;
       sh.wFunc = FO_DELETE;
       sh.pFrom = (tmp+Lv1->Selected->Caption).c_str();
@@ -251,8 +251,18 @@ void __fastcall TFr_Main::Del(TObject *Sender)
       sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
       sh.hNameMappings = 0;
       sh.lpszProgressTitle = NULL;
-      SHFileOperation(&sh);
-      SHFileOperation(&sh);
+      SHFileOperation(&sh); */
+
+      /*int res;
+      SHFILEOPSTRUCT fo;
+
+      ZeroMemory(&fo, sizeof(fo));
+      fo.hwnd   = Fr_Main->Handle;
+      fo.pFrom  = (tmp+Lv1->Selected->Caption).c_str();
+      fo.wFunc  = FO_DELETE;
+      fo.fFlags = FOF_NOCONFIRMATION;
+      res = SHFileOperation(&fo);*/
+      RemoveDirectory((tmp+Lv1->Selected->Caption).c_str());
     }
     else
       DeleteFile((path+Lv1->Selected->Caption).c_str());
@@ -260,7 +270,6 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   else
     return;
   FileList(Owner);
-  Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
 

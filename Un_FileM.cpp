@@ -243,15 +243,7 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   {
     if (Lv1->Selected->ImageIndex==0)
     {
-      SHFILEOPSTRUCT sh;
-      sh.hwnd=Fr_Main->Handle;
-      sh.wFunc = FO_DELETE;
-      sh.pFrom = (tmp+Lv1->Selected->Caption).c_str();
-      sh.pTo = NULL;
-      sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
-      sh.hNameMappings = 0;
-      sh.lpszProgressTitle = NULL;
-      SHFileOperation(&sh);
+      RemoveDirectory((tmp+Lv1->Selected->Caption).c_str());
     }
     else
       DeleteFile((path+Lv1->Selected->Caption).c_str());
@@ -259,7 +251,6 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   else
     return;
   FileList(Owner);
-  Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
 

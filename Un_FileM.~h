@@ -27,11 +27,11 @@ __published:	// IDE-managed Components
         TMenuItem *N5;
         TMenuItem *MenuEdit;
         TPopupMenu *PopupMenu1;
-        TMenuItem *N6;
-        TMenuItem *N7;
-        TMenuItem *N8;
+        TMenuItem *NCut;
+        TMenuItem *NCopy;
+        TMenuItem *NPaste;
         TMenuItem *N9;
-        TMenuItem *N10;
+        TMenuItem *NDel;
         void __fastcall Lv1DblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -41,6 +41,7 @@ __published:	// IDE-managed Components
         void __fastcall Del(TObject *Sender);
         void __fastcall Cut(TObject *Sender);
         void __fastcall Ident(int imInd, AnsiString capt);
+        void __fastcall PopupMenu1Popup(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;

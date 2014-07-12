@@ -34,6 +34,10 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
   MenuEdit->Enabled=false;
+  NCopy->Enabled=false;
+  NCut->Enabled=false;
+  NDel->Enabled=false;
+  NPaste->Enabled=false;
   Lv1->Clear();
   LDir->Clear();
   LDir->Clear();
@@ -275,9 +279,26 @@ void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
 
   if (imInd==0)
   {
-    //ShowMessage(p);
     RemoveDirectory((p).c_str());
   }
   else
     DeleteFile((p).c_str());
 }
+//---------------------------------------------------------------------------
+void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
+{
+  if (Lv1->Selected)
+  {
+    NCopy->Enabled=true;
+    NCut->Enabled=true;
+    NDel->Enabled=true;
+  }
+  else
+  {
+    NCopy->Enabled=false;
+    NCut->Enabled=false;
+    NDel->Enabled=false;
+  }
+}
+//---------------------------------------------------------------------------
+

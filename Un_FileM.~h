@@ -26,6 +26,12 @@ __published:	// IDE-managed Components
         TMenuItem *N4;
         TMenuItem *N5;
         TMenuItem *MenuEdit;
+        TPopupMenu *PopupMenu1;
+        TMenuItem *N6;
+        TMenuItem *N7;
+        TMenuItem *N8;
+        TMenuItem *N9;
+        TMenuItem *N10;
         void __fastcall Lv1DblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -33,15 +39,16 @@ __published:	// IDE-managed Components
         void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
         void __fastcall Del(TObject *Sender);
+        void __fastcall Cut(TObject *Sender);
+        void __fastcall Ident(int imInd, AnsiString capt);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;
         TListItem  *ListItem;
         TSearchRec sr;
-        AnsiString dl, path, cpPath, file;
+        AnsiString dl, path, cpPath, file, ctPath, tmp;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath;
-        int fl;
-        char cFrom[MAX_PATH];
+        int fl, flCut, ctImInd;
 
         __fastcall TFr_Main(TComponent* Owner);
 };

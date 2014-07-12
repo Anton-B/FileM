@@ -209,14 +209,16 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 
 void __fastcall TFr_Main::Copy(TObject *Sender)
 {
+  tmp=path;
   if (Lv1->Selected->ImageIndex==-1)
-    file= Lv1->Selected->Caption;
-  cpPath=path+Lv1->Selected->Caption;
+    file=Lv1->Selected->Caption;
+  cpPath=tmp+Lv1->Selected->Caption;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Paste(TObject *Sender)
 {
+
   if (file=="")
   {
     SHFILEOPSTRUCT fos;
@@ -230,6 +232,9 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   }
   else
     CopyFile(cpPath.c_str(),(path+file).c_str(),1);
+  if (flCut==1)
+    Del(Owner);
+  flCut=0;
   file="";
   cpPath="";
   FileList(Owner);
@@ -238,19 +243,41 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
 
 void __fastcall TFr_Main::Del(TObject *Sender)
 {
-  AnsiString tmp=path;
-  if (MessageDlg("Вы уверены, что хотите безвозвратно удалить "+Lv1->Selected->Caption+"?",mtConfirmation,TMsgDlgButtons()<<mbYes<<mbNo,0)==mrYes)
+  if (flCut==0)
   {
-    if (Lv1->Selected->ImageIndex==0)
+    if (MessageDlg("Вы уверены, что хотите безвозвратно удалить "+Lv1->Selected->Caption+"?",mtConfirmation,TMsgDlgButtons()<<mbYes<<mbNo,0)==mrYes)
     {
-      RemoveDirectory((tmp+Lv1->Selected->Caption).c_str());
+      Ident(Lv1->Selected->ImageIndex,path+Lv1->Selected->Caption);
     }
     else
-      DeleteFile((path+Lv1->Selected->Caption).c_str());
+      return;
   }
   else
-    return;
+    Ident(ctImInd,ctPath);
+  flCut=0;
   FileList(Owner);
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::Cut(TObject *Sender)
+{
+  flCut=1;
+  Copy(Owner);
+  ctPath=tmp+Lv1->Selected->Caption;
+  ctImInd=Lv1->Selected->ImageIndex;
+  Lv1->Selected->Caption="(Вырезано) "+Lv1->Selected->Caption;
+  Lv1->Selected->ImageIndex=-1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
+{
+
+  if (imInd==0)
+  {
+    //ShowMessage(p);
+    RemoveDirectory((p).c_str());
+  }
+  else
+    DeleteFile((p).c_str());
+}

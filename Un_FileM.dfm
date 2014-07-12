@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 410
-  Top = 352
+  Left = 673
+  Top = 228
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -37,13 +37,14 @@ object Fr_Main: TFr_Main
     ColumnClick = False
     ReadOnly = True
     RowSelect = True
+    PopupMenu = PopupMenu1
     SmallImages = ImgL1
     TabOrder = 0
     ViewStyle = vsReport
     OnDblClick = Lv1DblClick
   end
   object ImgL1: TImageList
-    Left = 32
+    Left = 64
     Top = 632
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
@@ -188,7 +189,7 @@ object Fr_Main: TFr_Main
   object MainMenu1: TMainMenu
     Top = 632
     object File1: TMenuItem
-      Caption = #1060#1072#1081#1083
+      Caption = #1052#1077#1085#1077#1076#1078#1077#1088
       object MenuFileHome: TMenuItem
         Caption = #1044#1086#1084#1086#1081
         OnClick = DiskList
@@ -199,6 +200,7 @@ object Fr_Main: TFr_Main
       object N1: TMenuItem
         Caption = #1042#1099#1088#1077#1079#1072#1090#1100
         ShortCut = 16472
+        OnClick = Cut
       end
       object N2: TMenuItem
         Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
@@ -218,6 +220,33 @@ object Fr_Main: TFr_Main
         ShortCut = 8238
         OnClick = Del
       end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 32
+    Top = 632
+    object N6: TMenuItem
+      Caption = #1042#1099#1088#1077#1079#1072#1090#1100
+      ShortCut = 16472
+      OnClick = Cut
+    end
+    object N7: TMenuItem
+      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
+      ShortCut = 16451
+      OnClick = Copy
+    end
+    object N8: TMenuItem
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100
+      ShortCut = 16470
+      OnClick = Paste
+    end
+    object N9: TMenuItem
+      Caption = '-'
+    end
+    object N10: TMenuItem
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      ShortCut = 8238
+      OnClick = Del
     end
   end
 end

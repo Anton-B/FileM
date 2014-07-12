@@ -33,7 +33,6 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
-  MenuEdit->Enabled=false;
   NCopy->Enabled=false;
   NCut->Enabled=false;
   NDel->Enabled=false;
@@ -97,7 +96,6 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
-  MenuEdit->Enabled=true;
   if (((TListView*)Sender)->Selected->ImageIndex==-1)
   {
     ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);

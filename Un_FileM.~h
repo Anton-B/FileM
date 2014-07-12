@@ -18,14 +18,7 @@ __published:	// IDE-managed Components
         TListView *Lv1;
         TImageList *ImgL1;
         TMainMenu *MainMenu1;
-        TMenuItem *File1;
         TMenuItem *MenuFileHome;
-        TMenuItem *N1;
-        TMenuItem *N2;
-        TMenuItem *N3;
-        TMenuItem *N4;
-        TMenuItem *N5;
-        TMenuItem *MenuEdit;
         TPopupMenu *PopupMenu1;
         TMenuItem *NCut;
         TMenuItem *NCopy;

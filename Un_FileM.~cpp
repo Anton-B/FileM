@@ -33,7 +33,6 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
-  MenuEdit->Enabled=false;
   NCopy->Enabled=false;
   NCut->Enabled=false;
   NDel->Enabled=false;
@@ -292,6 +291,7 @@ void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
     NCopy->Enabled=true;
     NCut->Enabled=true;
     NDel->Enabled=true;
+    NPaste->Enabled=false;
   }
   else
   {

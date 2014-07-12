@@ -188,38 +188,9 @@ object Fr_Main: TFr_Main
   end
   object MainMenu1: TMainMenu
     Top = 632
-    object File1: TMenuItem
-      Caption = #1052#1077#1085#1077#1076#1078#1077#1088
-      object MenuFileHome: TMenuItem
-        Caption = #1044#1086#1084#1086#1081
-        OnClick = DiskList
-      end
-    end
-    object MenuEdit: TMenuItem
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
-      object N1: TMenuItem
-        Caption = #1042#1099#1088#1077#1079#1072#1090#1100
-        ShortCut = 16472
-        OnClick = Cut
-      end
-      object N2: TMenuItem
-        Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
-        ShortCut = 16451
-        OnClick = Copy
-      end
-      object N3: TMenuItem
-        Caption = #1042#1089#1090#1072#1074#1080#1090#1100
-        ShortCut = 16470
-        OnClick = Paste
-      end
-      object N5: TMenuItem
-        Caption = '-'
-      end
-      object N4: TMenuItem
-        Caption = #1059#1076#1072#1083#1080#1090#1100
-        ShortCut = 8238
-        OnClick = Del
-      end
+    object MenuFileHome: TMenuItem
+      Caption = #1044#1086#1084#1086#1081
+      OnClick = DiskList
     end
   end
   object PopupMenu1: TPopupMenu

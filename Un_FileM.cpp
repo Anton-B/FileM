@@ -111,9 +111,17 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
       return;
     }
     if (((TListView*)Sender)->Selected->Caption=="<--")
-      path+="..\\";
+    {
+      char *p=path.c_str();
+      p[path.Length()-1]='\0';
+      for (int i=path.Length();p[i-2]!='\\';i--)
+        p[i-2]='\0';
+      path=p;
+    }
     else
     {
+      //lastPath=((TListView*)Sender)->Selected->Caption;
+      //ShowMessage(lastPath);
       if (fl==0)
       {
         path=((TListView*)Sender)->Selected->Caption;
@@ -125,6 +133,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
   }
   else
     return;
+
 }
 //---------------------------------------------------------------------------
 
@@ -283,7 +292,7 @@ void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
 {
   if (imInd==0)
   {
-
+    DelDir(p);
     /*TSearchRec sr1;
     if (p.Length())
     {
@@ -336,14 +345,14 @@ void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
 
 void __fastcall TFr_Main::DelDir(AnsiString Dir)
 {
-  ShowMessage(p);
   SHFILEOPSTRUCT sh;
   sh.hwnd=Fr_Main->Handle;
   sh.wFunc = FO_DELETE;
-  sh.pFrom = Dir;
+  sh.pFrom = (Dir+"\0").c_str();
   sh.pTo = NULL;
   sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
   sh.hNameMappings = 0;
   sh.lpszProgressTitle = NULL;
-  SHFileOperation(&sh); 
+  SHFileOperation(&sh);
 }
+//---------------------------------------------------------------------------

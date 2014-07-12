@@ -3,7 +3,7 @@
 #include <vcl.h>
 #include <fstream.h>
 #include <sys\stat.h>
-#include <clipbrd.hpp>
+#include <dir.h>
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -15,6 +15,7 @@ TFr_Main *Fr_Main;
 __fastcall TFr_Main::TFr_Main(TComponent* Owner)
         : TForm(Owner)
 {
+  flPaste=0;
   LDir=new TStringList;
   LFile=new TStringList;
   LExt=new TStringList;
@@ -96,29 +97,34 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 {
-  if (((TListView*)Sender)->Selected->ImageIndex==-1)
+  if (Lv1->Selected)
   {
-    ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
-    return;
-  }
-  if ((fl==-1)&&(((TListView*)Sender)->Selected->Caption=="<--"))
-  {
-    DiskList(Owner);
-    fl=0;
-    return;
-  }
-  if (((TListView*)Sender)->Selected->Caption=="<--")
-    path+="..\\";
-  else
-  {
-    if (fl==0)
+    if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
-      path=((TListView*)Sender)->Selected->Caption;
+      ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
+      return;
     }
+    if ((fl==-1)&&(((TListView*)Sender)->Selected->Caption=="<--"))
+    {
+      DiskList(Owner);
+      fl=0;
+      return;
+    }
+    if (((TListView*)Sender)->Selected->Caption=="<--")
+      path+="..\\";
     else
-      path+=((TListView*)Sender)->Selected->Caption+"\\";
+    {
+      if (fl==0)
+      {
+        path=((TListView*)Sender)->Selected->Caption;
+      }
+      else
+        path+=((TListView*)Sender)->Selected->Caption+"\\";
+    }
+    FileList(Owner);
   }
-  FileList(Owner);
+  else
+    return;
 }
 //---------------------------------------------------------------------------
 
@@ -211,6 +217,7 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 
 void __fastcall TFr_Main::Copy(TObject *Sender)
 {
+  flPaste=1;
   tmp=path;
   if (Lv1->Selected->ImageIndex==-1)
     file=Lv1->Selected->Caption;
@@ -220,7 +227,6 @@ void __fastcall TFr_Main::Copy(TObject *Sender)
 
 void __fastcall TFr_Main::Paste(TObject *Sender)
 {
-
   if (file=="")
   {
     SHFILEOPSTRUCT fos;
@@ -263,6 +269,7 @@ void __fastcall TFr_Main::Del(TObject *Sender)
 
 void __fastcall TFr_Main::Cut(TObject *Sender)
 {
+  flPaste=1;
   flCut=1;
   Copy(Owner);
   ctPath=tmp+Lv1->Selected->Caption;
@@ -274,15 +281,37 @@ void __fastcall TFr_Main::Cut(TObject *Sender)
 
 void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
 {
-
   if (imInd==0)
   {
-    RemoveDirectory((p).c_str());
+
+    /*TSearchRec sr1;
+    if (p.Length())
+    {
+      if (!FindFirst(p+"\\*.*",faAnyFile,sr))
+        do
+        {
+        if (!(sr1.Name=="." || sr1.Name==".." || sr1.Name=="<--"))
+          if (((sr1.Attr & faDirectory) == faDirectory ) ||(sr1.Attr == faDirectory))
+          {
+            FileSetAttr(p+"\\"+sr1.Name, faDirectory );
+            Ident(0,p+"\\"+sr1.Name);
+            RemoveDirectory((p + "\\"+sr1.Name).c_str());
+          }
+          else
+          {
+            FileSetAttr(p+"\\"+sr1.Name, 0);
+            DeleteFile(p+"\\"+sr1.Name);
+          }
+        } while (!FindNext(sr));
+      FindClose(sr);
+    }
+    RemoveDirectory(p.c_str()); */
   }
   else
     DeleteFile((p).c_str());
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
 {
   if (Lv1->Selected)
@@ -297,7 +326,24 @@ void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
     NCopy->Enabled=false;
     NCut->Enabled=false;
     NDel->Enabled=false;
+    if (flPaste==0)
+      NPaste->Enabled=false;
+    else
+      NPaste->Enabled=true;
   }
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::DelDir(AnsiString Dir)
+{
+  ShowMessage(p);
+  SHFILEOPSTRUCT sh;
+  sh.hwnd=Fr_Main->Handle;
+  sh.wFunc = FO_DELETE;
+  sh.pFrom = Dir;
+  sh.pTo = NULL;
+  sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
+  sh.hNameMappings = 0;
+  sh.lpszProgressTitle = NULL;
+  SHFileOperation(&sh); 
+}

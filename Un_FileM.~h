@@ -35,6 +35,7 @@ __published:	// IDE-managed Components
         void __fastcall Cut(TObject *Sender);
         void __fastcall Ident(int imInd, AnsiString capt);
         void __fastcall PopupMenu1Popup(TObject *Sender);
+        void __fastcall DelDir(AnsiString Dir);
 private:	// User declarations
 public:		// User declarations
         TListColumn  *NewColumn;
@@ -42,7 +43,7 @@ public:		// User declarations
         TSearchRec sr;
         AnsiString dl, path, cpPath, file, ctPath, tmp;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath;
-        int fl, flCut, ctImInd;
+        int fl, flCut, flPaste, ctImInd;
 
         __fastcall TFr_Main(TComponent* Owner);
 };

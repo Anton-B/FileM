@@ -32,6 +32,10 @@ __published:	// IDE-managed Components
         TMenuItem *N8;
         TButton *BtHome1;
         TButton *BtHome2;
+        TEdit *Ed1;
+        TButton *BtS1;
+        TEdit *Ed2;
+        TButton *BtS2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -47,6 +51,10 @@ __published:	// IDE-managed Components
         void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl);
         void __fastcall PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt);
         void __fastcall Home(TObject *Sender);
+        void __fastcall SearchIdent(TObject *Sender);
+        void __fastcall Search(TObject *Sender);
+        void __fastcall Find(AnsiString p, AnsiString t);
+        void __fastcall Ed(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;
@@ -54,7 +62,7 @@ public:		// User declarations
         TListItem  *ListItem;
         TSearchRec sr;
         AnsiString dl, path1, path2, cpPath, file, ctPath, tmp, srchW;
-        TStringList *LDir, *LFile, *LExt, *LSize, *LPath;
+        TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
         int fl1, fl2, flCut, flPaste, ctImInd;
 
         __fastcall TFr_Main(TComponent* Owner);

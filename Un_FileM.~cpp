@@ -3,6 +3,7 @@
 #include <vcl.h>
 #include <fstream.h>
 #include <sys\stat.h>
+#include <Masks.hpp>
 #include "Un_FileM_Search.cpp"
 #pragma hdrstop
 
@@ -21,6 +22,8 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   LExt=new TStringList;
   LSize=new TStringList;
   LPath=new TStringList;
+  LSearchD=new TStringList;
+  LSearchF=new TStringList;
   if (FileExists("fml.fml"))
   {
     LPath->LoadFromFile("fml.fml");
@@ -51,6 +54,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   LSize->Clear();
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
+  ((TListView*)Sender)->Column[1]->Caption="Тип";
   if (((TListView*)Sender)==Lv1)
   {
     path1="";
@@ -188,8 +192,10 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
     fl=fl2;
   }
   //ShowMessage(path);
+  ((TListView*)Sender)->Column[1]->Caption="Тип";
+  ((TListView*)Sender)->Column[1]->Alignment=taCenter;
   fl=1;
-  if (FindFirst(path+"\*.*", faAnyFile, sr) == 0)
+  if (FindFirst(path+"\\*.*", faAnyFile, sr) == 0)
   {
     do
     {
@@ -205,7 +211,7 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
       else
       {
         LFile->Add(sr.Name);
-        LExt->Add(ExtractFileExt(sr.Name).UpperCase());
+        LExt->Add(ExtractFileExt(sr.Name));
         struct stati64 statbuf;
         AnsiString p=path+sr.Name;
         _stati64(p.c_str(), &statbuf);
@@ -476,6 +482,133 @@ void __fastcall TFr_Main::Lv(TObject *Sender)
     case 8:
       Del(Lv2);
       break;
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::SearchIdent(TObject *Sender)
+{
+  if (((TButton*)Sender)->Name=="BtS1")
+    Search(Lv1);
+  else
+    Search(Lv2);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Search(TObject *Sender)
+{
+
+  BtS1->Enabled=false;
+  AnsiString text;
+  AnsiString path;
+  int fl;
+  if (((TListView*)Sender)==Lv1)
+  {
+    path=path1;
+    text=Ed1->Text;
+    fl=fl1;
+  }
+  else
+  {
+    path=path2;
+    text=Ed2->Text;
+    fl=fl2;
+  }
+  if (fl==5)
+  {
+    DiskList(((TListView*)Sender));
+    fl=0;
+    path="";
+  }
+  if (fl==0&&path=="")
+  {
+    for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
+      Find(((TListView*)Sender)->Items->Item[i]->Caption,text);
+  }
+  else
+    Find(path,text);
+
+  ((TListView*)Sender)->Clear();
+  if (((TListView*)Sender)->Columns->Count>2)
+    ((TListView*)Sender)->Columns->Delete(2);
+  ((TListView*)Sender)->Column[1]->Caption="Адрес";
+  ((TListView*)Sender)->Column[1]->Alignment=taLeftJustify;
+
+  for (int i=0;i<LDir->Count;i++)
+  {
+    ListItem = ((TListView*)Sender)->Items->Add();
+    ListItem->Caption = LDir->Strings[i];
+    ListItem->SubItems->Add(LSearchD->Strings[i]);
+    ListItem->ImageIndex=0;
+  }
+  for (int i=0;i<LFile->Count;i++)
+  {
+    ListItem = ((TListView*)Sender)->Items->Add();
+    ListItem->Caption = LFile->Strings[i];
+    ListItem->SubItems->Add(LSearchF->Strings[i]);
+    ListItem->ImageIndex=-1;
+  }
+  LDir->Clear();
+  LFile->Clear();
+  LSearchD->Clear();
+  LSearchF->Clear();
+  path="";
+  fl=5;
+  if (((TListView*)Sender)==Lv1)
+  {
+    path1=path;
+    fl1=fl;
+  }
+  else
+  {
+    path2=path;
+    fl2=fl;
+  }
+  if (((TListView*)Sender)->Items->Count==0)
+    MessageDlg("Поиск не дал результатов.",mtInformation,TMsgDlgButtons()<<mbOK,0);
+  BtS1->Enabled=true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
+{
+  TSearchRec sr;
+  if(FindFirst(p + "*.*", faAnyFile, sr) == 0)
+  {
+    do
+    {
+      if((sr.Attr & faDirectory) != faDirectory)
+      {
+        if(((sr.Attr & faAnyFile) == sr.Attr) &&(MatchesMask(sr.Name, t)))
+        {
+          LFile->Add(sr.Name);
+          LSearchF->Add(p);
+        }
+      }
+      else
+      {
+        if(sr.Name != "." && sr.Name!= "..")
+        {
+          if(((sr.Attr & faAnyFile) == sr.Attr) &&(sr.Name==t))
+          {
+            LDir->Add(sr.Name);
+            LSearchD->Add(p);
+          }
+          Find(p + sr.Name + "\\", t);
+        }
+      }
+      Application->ProcessMessages();
+    } while (FindNext(sr)==0);
+    FindClose(sr);
+  }
+}
+//---------------------------------------------------------------------------
+void __fastcall TFr_Main::Ed(TObject *Sender)
+{
+  if (((TEdit*)Sender)->Font->Color==clInactiveCaption)
+  {
+    ((TEdit*)Sender)->Font->Color=clWindowText;
+    ((TEdit*)Sender)->Text="";
   }
 }
 //---------------------------------------------------------------------------

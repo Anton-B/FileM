@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 364
-  Top = 264
+  Left = 398
+  Top = 370
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -30,7 +30,7 @@ object Fr_Main: TFr_Main
       item
         Alignment = taCenter
         Caption = #1058#1080#1087
-        Width = 130
+        Width = 155
       end>
     ColumnClick = False
     ReadOnly = True
@@ -54,7 +54,7 @@ object Fr_Main: TFr_Main
       item
         Alignment = taCenter
         Caption = #1058#1080#1087
-        Width = 130
+        Width = 155
       end>
     ColumnClick = False
     ReadOnly = True
@@ -66,9 +66,9 @@ object Fr_Main: TFr_Main
     OnDblClick = ListDblClick
   end
   object BtHome1: TButton
-    Left = 8
+    Left = 544
     Top = 0
-    Width = 75
+    Width = 73
     Height = 25
     Caption = #1044#1086#1084#1086#1081
     Font.Charset = DEFAULT_CHARSET
@@ -80,10 +80,47 @@ object Fr_Main: TFr_Main
     TabOrder = 2
     OnClick = Home
   end
-  object BtHome2: TButton
-    Left = 624
+  object Ed1: TEdit
+    Left = 0
     Top = 0
-    Width = 75
+    Width = 273
+    Height = 24
+    Hint = 
+      #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
+      't'#13#10'example.*'
+    HelpType = htKeyword
+    HelpKeyword = #1077#1085#1086#1077#1085#1086
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clInactiveCaption
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    Text = #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072'...'
+    OnClick = Ed
+  end
+  object BtS1: TButton
+    Left = 272
+    Top = 0
+    Width = 73
+    Height = 25
+    Caption = #1055#1086#1080#1089#1082
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    OnClick = SearchIdent
+  end
+  object BtHome2: TButton
+    Left = 1144
+    Top = 0
+    Width = 73
     Height = 25
     Caption = #1044#1086#1084#1086#1081
     Font.Charset = DEFAULT_CHARSET
@@ -94,6 +131,43 @@ object Fr_Main: TFr_Main
     ParentFont = False
     TabOrder = 3
     OnClick = Home
+  end
+  object Ed2: TEdit
+    Left = 616
+    Top = 0
+    Width = 273
+    Height = 24
+    Hint = 
+      #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
+      't'#13#10'example.*'
+    HelpType = htKeyword
+    HelpKeyword = #1077#1085#1086#1077#1085#1086
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clInactiveCaption
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 6
+    Text = #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072'...'
+    OnClick = Ed
+  end
+  object BtS2: TButton
+    Left = 888
+    Top = 0
+    Width = 73
+    Height = 25
+    Caption = #1055#1086#1080#1089#1082
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    OnClick = SearchIdent
   end
   object ImgL1: TImageList
     Left = 72

@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 526
-  Top = 412
+  Left = 389
+  Top = 308
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -170,7 +170,7 @@ object Fr_Main: TFr_Main
     OnClick = SearchIdent
   end
   object ImgL1: TImageList
-    Left = 72
+    Left = 104
     Top = 648
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
@@ -381,6 +381,14 @@ object Fr_Main: TFr_Main
       Enabled = False
       ShortCut = 8238
       OnClick = Lv
+    end
+  end
+  object PopupMenu3: TPopupMenu
+    Left = 72
+    Top = 648
+    object ToPath: TMenuItem
+      Caption = #1055#1077#1088#1077#1081#1090#1080' '#1082' '#1084#1077#1089#1090#1086#1088#1072#1089#1087#1086#1083#1086#1078#1077#1085#1080#1102
+      Enabled = False
     end
   end
 end

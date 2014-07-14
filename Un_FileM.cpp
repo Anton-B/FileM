@@ -4,7 +4,6 @@
 #include <fstream.h>
 #include <sys\stat.h>
 #include <Masks.hpp>
-#include "Un_FileM_Search.cpp"
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -55,6 +54,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
   ((TListView*)Sender)->Column[1]->Caption="Тип";
+  ((TListView*)Sender)->Column[1]->Alignment=taCenter;
   if (((TListView*)Sender)==Lv1)
   {
     path1="";
@@ -385,9 +385,6 @@ void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
 
 void __fastcall TFr_Main::PopupMenu(TObject *Sender)
 {
-  //ShowMessage(dynamic_cast<TComponent *>(Sender)->Tag);
-  //ShowMessage(dynamic_cast<TComponent *>(Sender)->Name);
-  //ShowMessage(((TPopupMenu*)Sender)->Items->Find("Вырезать")->Caption);
   if (((TPopupMenu*)Sender)->Name=="PopupMenu1")
     PopupIdent(Lv1,((TPopupMenu*)Sender),fl1);
   else
@@ -443,7 +440,6 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
   sh.lpszProgressTitle = NULL;
   SHFileOperation(&sh);
 }
-
 //---------------------------------------------------------------------------
 void __fastcall TFr_Main::Home(TObject *Sender)
 {
@@ -499,6 +495,7 @@ void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 
 void __fastcall TFr_Main::Search(TObject *Sender)
 {
+  ((TListView*)Sender)->PopupMenu=PopupMenu3;
   AnsiString text;
   AnsiString path;
   int fl;

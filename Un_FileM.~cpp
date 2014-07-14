@@ -488,17 +488,17 @@ void __fastcall TFr_Main::Lv(TObject *Sender)
 
 void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 {
+  ((TButton*)Sender)->Enabled=false;
   if (((TButton*)Sender)->Name=="BtS1")
     Search(Lv1);
   else
     Search(Lv2);
+  ((TButton*)Sender)->Enabled=true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Search(TObject *Sender)
 {
-
-  BtS1->Enabled=false;
   AnsiString text;
   AnsiString path;
   int fl;
@@ -514,20 +514,20 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     text=Ed2->Text;
     fl=fl2;
   }
-  if (fl==5)
+  /*if (fl==5)
   {
     DiskList(((TListView*)Sender));
     fl=0;
     path="";
-  }
+  }*/
   if (fl==0&&path=="")
   {
     for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
       Find(((TListView*)Sender)->Items->Item[i]->Caption,text);
+    path="Компьютер";
   }
   else
     Find(path,text);
-
   ((TListView*)Sender)->Clear();
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
@@ -552,21 +552,10 @@ void __fastcall TFr_Main::Search(TObject *Sender)
   LFile->Clear();
   LSearchD->Clear();
   LSearchF->Clear();
+  if (((TListView*)Sender)->Items->Count==0)
+    MessageDlg("Поиск не дал результатов в каталоге "+path,mtInformation,TMsgDlgButtons()<<mbOK,0);
   path="";
   fl=5;
-  if (((TListView*)Sender)==Lv1)
-  {
-    path1=path;
-    fl1=fl;
-  }
-  else
-  {
-    path2=path;
-    fl2=fl;
-  }
-  if (((TListView*)Sender)->Items->Count==0)
-    MessageDlg("Поиск не дал результатов.",mtInformation,TMsgDlgButtons()<<mbOK,0);
-  BtS1->Enabled=true;
 }
 //---------------------------------------------------------------------------
 

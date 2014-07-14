@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 588
-  Top = 405
+  Left = 349
+  Top = 177
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -41,10 +41,35 @@ object Fr_Main: TFr_Main
     SmallImages = ImgL1
     TabOrder = 0
     ViewStyle = vsReport
-    OnDblClick = Lv1DblClick
+    OnDblClick = ListDblClick
+  end
+  object Lv2: TListView
+    Left = 616
+    Top = 0
+    Width = 600
+    Height = 664
+    Align = alRight
+    Columns = <
+      item
+        Caption = #1048#1084#1103
+        Width = 155
+      end
+      item
+        Alignment = taCenter
+        Caption = #1058#1080#1087
+        Width = 130
+      end>
+    ColumnClick = False
+    ReadOnly = True
+    RowSelect = True
+    PopupMenu = PopupMenu2
+    SmallImages = ImgL1
+    TabOrder = 1
+    ViewStyle = vsReport
+    OnDblClick = ListDblClick
   end
   object ImgL1: TImageList
-    Left = 64
+    Left = 96
     Top = 632
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
@@ -188,40 +213,84 @@ object Fr_Main: TFr_Main
   end
   object MainMenu1: TMainMenu
     Top = 632
-    object MenuFileHome: TMenuItem
-      Caption = #1044#1086#1084#1086#1081
-      OnClick = DiskList
+    object H1: TMenuItem
+      Caption = #1044#1086#1084#1086#1081' ('#1083#1077#1074#1086#1077' '#1086#1082#1085#1086')'
+      OnClick = H1Click
+    end
+    object H2: TMenuItem
+      Caption = #1044#1086#1084#1086#1081' ('#1087#1088#1072#1074#1086#1077' '#1086#1082#1085#1086')'
+      OnClick = H2Click
     end
   end
   object PopupMenu1: TPopupMenu
-    OnPopup = PopupMenu1Popup
+    OnPopup = PopupMenu
     Left = 32
     Top = 632
-    object NCut: TMenuItem
+    object N1: TMenuItem
+      Tag = 1
       Caption = #1042#1099#1088#1077#1079#1072#1090#1100
       Enabled = False
       ShortCut = 16472
-      OnClick = Cut
+      OnClick = Lv
     end
-    object NCopy: TMenuItem
+    object N2: TMenuItem
+      Tag = 2
       Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
       Enabled = False
       ShortCut = 16451
-      OnClick = Copy
+      OnClick = Lv
     end
-    object NPaste: TMenuItem
+    object N3: TMenuItem
+      Tag = 3
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100
       ShortCut = 16470
-      OnClick = Paste
+      OnClick = Lv
     end
     object N9: TMenuItem
       Caption = '-'
     end
-    object NDel: TMenuItem
+    object N4: TMenuItem
+      Tag = 4
       Caption = #1059#1076#1072#1083#1080#1090#1100
       Enabled = False
       ShortCut = 8238
-      OnClick = Del
+      OnClick = Lv
+    end
+  end
+  object PopupMenu2: TPopupMenu
+    Tag = 78
+    OnPopup = PopupMenu
+    Left = 64
+    Top = 632
+    object N5: TMenuItem
+      Tag = 5
+      Caption = #1042#1099#1088#1077#1079#1072#1090#1100
+      Enabled = False
+      ShortCut = 16472
+      OnClick = Lv
+    end
+    object N6: TMenuItem
+      Tag = 6
+      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
+      Enabled = False
+      ShortCut = 16451
+      OnClick = Lv
+    end
+    object N7: TMenuItem
+      Tag = 7
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100
+      ShortCut = 16470
+      OnClick = Lv
+    end
+    object MenuItem4: TMenuItem
+      Caption = '-'
+    end
+    object N8: TMenuItem
+      Tag = 8
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      Enabled = False
+      ShortCut = 8238
+      OnClick = Lv
     end
   end
 end

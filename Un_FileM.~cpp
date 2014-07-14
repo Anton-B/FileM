@@ -3,7 +3,7 @@
 #include <vcl.h>
 #include <fstream.h>
 #include <sys\stat.h>
-#include <dir.h>
+#include "Un_FileM_Search.cpp"
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -21,31 +21,46 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   LExt=new TStringList;
   LSize=new TStringList;
   LPath=new TStringList;
-  if (FileExists("fm.fm"))
+  if (FileExists("fml.fml"))
   {
-    LPath->LoadFromFile("fm.fm");
-    path=LPath->Strings[0];
-    FileList(Owner);
+    LPath->LoadFromFile("fml.fml");
+    path1=LPath->Strings[0];
+    FileList(Lv1);
   }
   else
-    DiskList(Owner);
+    DiskList(Lv1);
+  LPath->Clear();
+  if (FileExists("fmr.fmr"))
+  {
+    LPath->LoadFromFile("fmr.fmr");
+    path2=LPath->Strings[0];
+    FileList(Lv2);
+  }
+  else
+    DiskList(Lv2);
+  LPath->Clear();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
-  NCopy->Enabled=false;
-  NCut->Enabled=false;
-  NDel->Enabled=false;
-  NPaste->Enabled=false;
-  Lv1->Clear();
+  ((TListView*)Sender)->Clear();
   LDir->Clear();
   LDir->Clear();
   LExt->Clear();
   LSize->Clear();
-  if (Lv1->Columns->Count>2)
-    Lv1->Columns->Delete(2);
-  path="";
+  if (((TListView*)Sender)->Columns->Count>2)
+    ((TListView*)Sender)->Columns->Delete(2);
+  if (((TListView*)Sender)==Lv1)
+  {
+    path1="";
+    fl1=0;
+  }
+  else
+  {
+    path2="";
+    fl2=0;
+  }
 
   int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
@@ -56,10 +71,10 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   {
     char DiskString[4];
     CopyMemory(DiskString, (Buffer + i * 4), 4);
-    ListItem = Lv1->Items->Add();
+    ListItem = ((TListView*)Sender)->Items->Add();
     ListItem->Caption=DiskString;
     ListItem->ImageIndex=1;
-    
+
     int DriveType = GetDriveType(DiskString);
     switch(DriveType)
     {
@@ -91,13 +106,24 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   }
   delete [] Buffer;
   delete DiskList;
-  fl=0;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
+void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 {
-  if (Lv1->Selected)
+  AnsiString path;
+  int fl;
+  if (((TListView*)Sender)==Lv1)
+  {
+    path=path1;
+    fl=fl1;
+  }
+  else
+  {
+    path=path2;
+    fl=fl2;
+  }
+  if (((TListView*)Sender)->Selected)
   {
     if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
@@ -106,8 +132,7 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
     }
     if ((fl==-1)&&(((TListView*)Sender)->Selected->Caption=="<--"))
     {
-      DiskList(Owner);
-      fl=0;
+      DiskList(((TListView*)Sender));
       return;
     }
     if (((TListView*)Sender)->Selected->Caption=="<--")
@@ -125,11 +150,22 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
       if (fl==0)
       {
         path=((TListView*)Sender)->Selected->Caption;
+        //ShowMessage(path);
       }
       else
         path+=((TListView*)Sender)->Selected->Caption+"\\";
     }
-    FileList(Owner);
+    if (((TListView*)Sender)==Lv1)
+    {
+      path1=path;
+      fl1=fl;
+    }
+    else
+    {
+      path2=path;
+      fl2=fl;
+    }
+    FileList(((TListView*)Sender));
   }
   else
     return;
@@ -139,6 +175,19 @@ void __fastcall TFr_Main::Lv1DblClick(TObject *Sender)
 
 void __fastcall TFr_Main::FileList(TObject *Sender)
 {
+  AnsiString path;
+  int fl;
+  if (((TListView*)Sender)==Lv1)
+  {
+    path=path1;
+    fl=fl1;
+  }
+  else
+  {
+    path=path2;
+    fl=fl2;
+  }
+  //ShowMessage(path);
   fl=1;
   if (FindFirst(path+"\*.*", faAnyFile, sr) == 0)
   {
@@ -172,32 +221,32 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
     } while (FindNext(sr) == 0);
     FindClose(sr);
   }
-  Lv1->Clear();
-  if (Lv1->Columns->Count<=2)
+  ((TListView*)Sender)->Clear();
+  if (((TListView*)Sender)->Columns->Count<=2)
   {
-    NewColumn=Lv1->Columns->Add();
+    NewColumn=((TListView*)Sender)->Columns->Add();
     NewColumn->Caption="Размер";
     NewColumn->Alignment=taCenter;
-    NewColumn->Width=Lv1->Column[1]->Width;
+    NewColumn->Width=((TListView*)Sender)->Column[1]->Width;
   }
   for (int i=0;i<LDir->Count;i++)
   {
     if ((i==0)&&(LDir->Strings[i]!="<--"))
     {
-      ListItem = Lv1->Items->Add();
+      ListItem = ((TListView*)Sender)->Items->Add();
       ListItem->Caption = "<--";
       ListItem->ImageIndex=0;
       i=1;
       fl=-1;
     }
-    ListItem = Lv1->Items->Add();
+    ListItem = ((TListView*)Sender)->Items->Add();
     ListItem->Caption = LDir->Strings[i];
     ListItem->SubItems->Add("Папка");
     ListItem->ImageIndex=0;
   }
   for (int i=0;i<LFile->Count;i++)
   {
-    ListItem = Lv1->Items->Add();
+    ListItem = ((TListView*)Sender)->Items->Add();
     ListItem->Caption = LFile->Strings[i];
     ListItem->SubItems->Add(LExt->Strings[i]);
     ListItem->SubItems->Add(LSize->Strings[i]);
@@ -205,21 +254,38 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
   }
   LDir->Clear();
   LFile->Clear();
-  LExt->Clear();
+  LExt->Clear();              
   LSize->Clear();
+  if (((TListView*)Sender)==Lv1)
+  {
+    path1=path;
+    fl1=fl;
+  }
+  else
+  {
+    path2=path;
+    fl2=fl;
+  }
   Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 {
-  DeleteFile("fm.fm");
-  if (path!="")
+  DeleteFile("fml.fml");
+  DeleteFile("fmr.fmr");
+  if (path1!="")
   {
-    LPath->Clear();
-    LPath->Add(path);
-    LPath->SaveToFile("fm.fm");
-    //FileSetAttr("fm.fm",6);
+    LPath->Add(path1);
+    LPath->SaveToFile("fml.fml");
+    //FileSetAttr("fml.fml",6);
+  }
+  LPath->Clear();
+  if (path2!="")
+  {
+    LPath->Add(path2);
+    LPath->SaveToFile("fmr.fmr");
+    //FileSetAttr("fmr.fmr",6);
   }
 }
 //---------------------------------------------------------------------------
@@ -227,15 +293,23 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 void __fastcall TFr_Main::Copy(TObject *Sender)
 {
   flPaste=1;
-  tmp=path;
-  if (Lv1->Selected->ImageIndex==-1)
-    file=Lv1->Selected->Caption;
-  cpPath=tmp+Lv1->Selected->Caption;
+  if (((TListView*)Sender)==Lv1)
+    tmp=path1;
+  else
+    tmp=path2;
+  if (((TListView*)Sender)->Selected->ImageIndex==-1)
+    file=((TListView*)Sender)->Selected->Caption;
+  cpPath=tmp+((TListView*)Sender)->Selected->Caption;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Paste(TObject *Sender)
 {
+  AnsiString path;
+  if (((TListView*)Sender)==Lv1)
+    path=path1;
+  else
+    path=path2;
   if (file=="")
   {
     SHFILEOPSTRUCT fos;
@@ -250,21 +324,26 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   else
     CopyFile(cpPath.c_str(),(path+file).c_str(),1);
   if (flCut==1)
-    Del(Owner);
+    Del(((TListView*)Sender));
   flCut=0;
   file="";
   cpPath="";
-  FileList(Owner);
+  FileList(((TListView*)Sender));
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Del(TObject *Sender)
 {
+  AnsiString path;
+  if (((TListView*)Sender)==Lv1)
+    path=path1;
+  else
+    path=path2;
   if (flCut==0)
   {
-    if (MessageDlg("Вы уверены, что хотите безвозвратно удалить "+Lv1->Selected->Caption+"?",mtConfirmation,TMsgDlgButtons()<<mbYes<<mbNo,0)==mrYes)
+    if (MessageDlg("Вы уверены, что хотите безвозвратно удалить "+((TListView*)Sender)->Selected->Caption+"?",mtConfirmation,TMsgDlgButtons()<<mbYes<<mbNo,0)==mrYes)
     {
-      Ident(Lv1->Selected->ImageIndex,path+Lv1->Selected->Caption);
+      Ident(((TListView*)Sender)->Selected->ImageIndex,path+((TListView*)Sender)->Selected->Caption);
     }
     else
       return;
@@ -272,7 +351,7 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   else
     Ident(ctImInd,ctPath);
   flCut=0;
-  FileList(Owner);
+  FileList(((TListView*)Sender));
 }
 //---------------------------------------------------------------------------
 
@@ -280,11 +359,10 @@ void __fastcall TFr_Main::Cut(TObject *Sender)
 {
   flPaste=1;
   flCut=1;
-  Copy(Owner);
-  ctPath=tmp+Lv1->Selected->Caption;
-  ctImInd=Lv1->Selected->ImageIndex;
-  Lv1->Selected->Caption="(Вырезано) "+Lv1->Selected->Caption;
-  Lv1->Selected->ImageIndex=-1;
+  Copy(((TListView*)Sender));
+  ctPath=tmp+((TListView*)Sender)->Selected->Caption;
+  ctImInd=((TListView*)Sender)->Selected->ImageIndex;
+  ((TListView*)Sender)->Selected->Caption="(Вырезано) "+((TListView*)Sender)->Selected->Caption;
 }
 //---------------------------------------------------------------------------
 
@@ -293,53 +371,57 @@ void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
   if (imInd==0)
   {
     DelDir(p);
-    /*TSearchRec sr1;
-    if (p.Length())
-    {
-      if (!FindFirst(p+"\\*.*",faAnyFile,sr))
-        do
-        {
-        if (!(sr1.Name=="." || sr1.Name==".." || sr1.Name=="<--"))
-          if (((sr1.Attr & faDirectory) == faDirectory ) ||(sr1.Attr == faDirectory))
-          {
-            FileSetAttr(p+"\\"+sr1.Name, faDirectory );
-            Ident(0,p+"\\"+sr1.Name);
-            RemoveDirectory((p + "\\"+sr1.Name).c_str());
-          }
-          else
-          {
-            FileSetAttr(p+"\\"+sr1.Name, 0);
-            DeleteFile(p+"\\"+sr1.Name);
-          }
-        } while (!FindNext(sr));
-      FindClose(sr);
-    }
-    RemoveDirectory(p.c_str()); */
   }
   else
     DeleteFile((p).c_str());
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::PopupMenu1Popup(TObject *Sender)
+void __fastcall TFr_Main::PopupMenu(TObject *Sender)
 {
-  if (Lv1->Selected)
-  {
-    NCopy->Enabled=true;
-    NCut->Enabled=true;
-    NDel->Enabled=true;
-    NPaste->Enabled=false;
-  }
+  //ShowMessage(dynamic_cast<TComponent *>(Sender)->Tag);
+  //ShowMessage(dynamic_cast<TComponent *>(Sender)->Name);
+  //ShowMessage(((TPopupMenu*)Sender)->Items->Find("Вырезать")->Caption);
+  if (((TPopupMenu*)Sender)->Name=="PopupMenu1")
+    PopupIdent(Lv1,((TPopupMenu*)Sender),fl1);
   else
+    PopupIdent(Lv2,((TPopupMenu*)Sender),fl2);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl)
+{
+  if (fl==0)
   {
-    NCopy->Enabled=false;
-    NCut->Enabled=false;
-    NDel->Enabled=false;
-    if (flPaste==0)
-      NPaste->Enabled=false;
-    else
-      NPaste->Enabled=true;
+    PopupEnable(false,false,false,false);
+    return;
   }
+  if (((TListView*)Sender)->Selected)
+  {
+    PopupEnable(true,true,false,true);
+    return;
+  }
+  if (!((TListView*)Sender)->Selected)
+  {
+    if (flPaste==0)
+      PopupEnable(false,false,false,false);
+    else
+      PopupEnable(false,false,true,false);
+    return;
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt)
+{
+  if (((TPopupMenu*)Sender)->Items->Find("Вырезать"))
+    ((TPopupMenu*)Sender)->Items->Find("Вырезать")->Enabled=ct;
+  if (((TPopupMenu*)Sender)->Items->Find("Копировать"))
+    ((TPopupMenu*)Sender)->Items->Find("Копировать")->Enabled=cp;
+  if (((TPopupMenu*)Sender)->Items->Find("Вставить"))
+    ((TPopupMenu*)Sender)->Items->Find("Вставить")->Enabled=pt;
+  if (((TPopupMenu*)Sender)->Items->Find("Удалить"))
+    ((TPopupMenu*)Sender)->Items->Find("Удалить")->Enabled=dt;
 }
 //---------------------------------------------------------------------------
 
@@ -355,3 +437,50 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
   sh.lpszProgressTitle = NULL;
   SHFileOperation(&sh);
 }
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::H1Click(TObject *Sender)
+{
+  DiskList(Lv1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::H2Click(TObject *Sender)
+{
+  DiskList(Lv2);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Lv(TObject *Sender)
+{
+  switch (((TMenuItem*)Sender)->Tag)
+  {
+    case 1:
+      Cut(Lv1);
+      break;
+    case 2:
+      Copy(Lv1);
+      break;
+    case 3:
+      Paste(Lv1);
+      break;
+    case 4:
+      Del(Lv1);
+      break;
+    case 5:
+      Cut(Lv2);
+      break;
+    case 6:
+      Copy(Lv2);
+      break;
+    case 7:
+      Paste(Lv2);
+      break;
+    case 8:
+      Del(Lv2);
+      break;
+  }
+}
+//---------------------------------------------------------------------------
+

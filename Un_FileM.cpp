@@ -439,16 +439,12 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
 }
 
 //---------------------------------------------------------------------------
-
-void __fastcall TFr_Main::H1Click(TObject *Sender)
+void __fastcall TFr_Main::Home(TObject *Sender)
 {
-  DiskList(Lv1);
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFr_Main::H2Click(TObject *Sender)
-{
-  DiskList(Lv2);
+  if (((TButton*)Sender)->Name=="BtHome1")
+    DiskList(Lv1);
+  else
+    DiskList(Lv2);
 }
 //---------------------------------------------------------------------------
 

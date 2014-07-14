@@ -393,20 +393,20 @@ void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl)
 {
   if (fl==0)
   {
-    PopupEnable(false,false,false,false);
+    PopupEnable(((TPopupMenu*)Popup),false,false,false,false);
     return;
   }
   if (((TListView*)Sender)->Selected)
   {
-    PopupEnable(true,true,false,true);
+    PopupEnable(((TPopupMenu*)Popup),true,true,false,true);
     return;
   }
   if (!((TListView*)Sender)->Selected)
   {
     if (flPaste==0)
-      PopupEnable(false,false,false,false);
+      PopupEnable(((TPopupMenu*)Popup),false,false,false,false);
     else
-      PopupEnable(false,false,true,false);
+      PopupEnable(((TPopupMenu*)Popup),false,false,true,false);
     return;
   }
 }
@@ -439,16 +439,12 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
 }
 
 //---------------------------------------------------------------------------
-
-void __fastcall TFr_Main::H1Click(TObject *Sender)
+void __fastcall TFr_Main::Home(TObject *Sender)
 {
-  DiskList(Lv1);
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFr_Main::H2Click(TObject *Sender)
-{
-  DiskList(Lv2);
+  if (((TButton*)Sender)->Name=="BtHome1")
+    DiskList(Lv1);
+  else
+    DiskList(Lv2);
 }
 //---------------------------------------------------------------------------
 

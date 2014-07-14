@@ -17,7 +17,6 @@ class TFr_Main : public TForm
 __published:	// IDE-managed Components
         TListView *Lv1;
         TImageList *ImgL1;
-        TMainMenu *MainMenu1;
         TPopupMenu *PopupMenu1;
         TMenuItem *N1;
         TMenuItem *N2;
@@ -25,14 +24,14 @@ __published:	// IDE-managed Components
         TMenuItem *N9;
         TMenuItem *N4;
         TListView *Lv2;
-        TMenuItem *H1;
-        TMenuItem *H2;
         TPopupMenu *PopupMenu2;
         TMenuItem *N5;
         TMenuItem *N6;
         TMenuItem *N7;
         TMenuItem *MenuItem4;
         TMenuItem *N8;
+        TButton *BtHome1;
+        TButton *BtHome2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -47,8 +46,7 @@ __published:	// IDE-managed Components
         void __fastcall DelDir(AnsiString Dir);
         void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl);
         void __fastcall PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt);
-        void __fastcall H1Click(TObject *Sender);
-        void __fastcall H2Click(TObject *Sender);
+        void __fastcall Home(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;

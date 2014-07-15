@@ -48,6 +48,10 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
   ((TListView*)Sender)->Clear();
+  if (((TListView*)Sender)==Lv1)
+    Lv1->PopupMenu=PopupMenu1;
+  else
+    Lv2->PopupMenu=PopupMenu2;
   LDir->Clear();
   LDir->Clear();
   LExt->Clear();
@@ -179,11 +183,13 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
   int fl;
   if (((TListView*)Sender)==Lv1)
   {
+    Lv1->PopupMenu=PopupMenu1;
     path=path1;
     fl=fl1;
   }
   else
   {
+    Lv2->PopupMenu=PopupMenu2;
     path=path2;
     fl=fl2;
   }
@@ -329,7 +335,8 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   flCut=0;
   file="";
   cpPath="";
-  FileList(((TListView*)Sender));
+  FileList(Lv1);
+  FileList(Lv2);
 }
 //---------------------------------------------------------------------------
 

@@ -48,6 +48,10 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
 void __fastcall TFr_Main::DiskList(TObject *Sender)
 {
   ((TListView*)Sender)->Clear();
+  if (((TListView*)Sender)==Lv1)
+    Lv1->PopupMenu=PopupMenu1;
+  else
+    Lv2->PopupMenu=PopupMenu2;
   LDir->Clear();
   LDir->Clear();
   LExt->Clear();
@@ -179,11 +183,13 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
   int fl;
   if (((TListView*)Sender)==Lv1)
   {
+    Lv1->PopupMenu=PopupMenu1;
     path=path1;
     fl=fl1;
   }
   else
   {
+    Lv2->PopupMenu=PopupMenu2;
     path=path2;
     fl=fl2;
   }
@@ -552,7 +558,7 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     ListItem->SubItems->Add(LSearchF->Strings[i]);
     ListItem->ImageIndex=-1;
   }
-  MessageDlg("В каталоге "+path+" найдено "+Lv1->Items->Count+" файлов и/или папок.",mtInformation,TMsgDlgButtons()<<mbOK,0);
+  MessageDlg("В каталоге "+path+" найдено "+((TListView*)Sender)->Items->Count+" файлов и/или папок.",mtInformation,TMsgDlgButtons()<<mbOK,0);
   LDir->Clear();
   LFile->Clear();
   LSearchD->Clear();

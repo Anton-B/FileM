@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <dir.h>
 #include <fstream.h>
 #include <sys\stat.h>
 #include <Masks.hpp>
-#include "Un_FileM_Search.cpp"
 #pragma hdrstop
 
 #include "Un_FileM.h"
@@ -66,7 +66,6 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
     path2="";
     fl2=0;
   }
-
   int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
   TStringList *DiskList = new TStringList;
@@ -79,7 +78,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
     ListItem = ((TListView*)Sender)->Items->Add();
     ListItem->Caption=DiskString;
     ListItem->ImageIndex=1;
-
+    
     int DriveType = GetDriveType(DiskString);
     switch(DriveType)
     {
@@ -150,12 +149,9 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     }
     else
     {
-      //lastPath=((TListView*)Sender)->Selected->Caption;
-      //ShowMessage(lastPath);
       if (fl==0)
       {
         path=((TListView*)Sender)->Selected->Caption;
-        //ShowMessage(path);
       }
       else
         path+=((TListView*)Sender)->Selected->Caption+"\\";
@@ -174,7 +170,6 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   }
   else
     return;
-
 }
 //---------------------------------------------------------------------------
 
@@ -192,7 +187,6 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
     path=path2;
     fl=fl2;
   }
-  //ShowMessage(path);
   ((TListView*)Sender)->Column[1]->Caption="Тип";
   ((TListView*)Sender)->Column[1]->Alignment=taCenter;
   fl=1;
@@ -487,9 +481,25 @@ void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 {
   ((TButton*)Sender)->Enabled=false;
   if (((TButton*)Sender)->Name=="BtS1")
+  {
+    BtHome1->Enabled=false;
+    Lv1->Enabled=false;
+    Lb1->Caption="Выполняется поиск...";
     Search(Lv1);
+    BtHome1->Enabled=true;
+    Lb1->Caption="";
+    Lv1->Enabled=true;
+  }
   else
+  {
+    BtHome2->Enabled=false;
+    Lv2->Enabled=false;
+    Lb2->Caption="Выполняется поиск...";
     Search(Lv2);
+    BtHome2->Enabled=true;
+    Lb2->Caption="";
+    Lv2->Enabled=true;
+  }
   ((TButton*)Sender)->Enabled=true;
 }
 //---------------------------------------------------------------------------
@@ -512,8 +522,9 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     text=Ed2->Text;
     fl=fl2;
   }
-  if (fl==0&&path=="")
+  if (path=="")
   {
+    DiskList(((TListView*)Sender));
     for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
       Find(((TListView*)Sender)->Items->Item[i]->Caption,text);
     path="Компьютер";
@@ -540,12 +551,11 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     ListItem->SubItems->Add(LSearchF->Strings[i]);
     ListItem->ImageIndex=-1;
   }
+  MessageDlg("В каталоге "+path+" найдено "+Lv1->Items->Count+" файлов и/или папок.",mtInformation,TMsgDlgButtons()<<mbOK,0);
   LDir->Clear();
   LFile->Clear();
   LSearchD->Clear();
   LSearchF->Clear();
-  if (((TListView*)Sender)->Items->Count==0)
-    MessageDlg("Поиск не дал результатов в каталоге "+path,mtInformation,TMsgDlgButtons()<<mbOK,0);
   path="";
   fl=5;
 }
@@ -553,6 +563,8 @@ void __fastcall TFr_Main::Search(TObject *Sender)
 
 void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
 {
+  AnsiString name,ext;
+  char n[MAXFILE], e[MAXEXT];
   TSearchRec sr;
   if(FindFirst(p + "*.*", faAnyFile, sr) == 0)
   {
@@ -560,7 +572,20 @@ void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
     {
       if((sr.Attr & faDirectory) != faDirectory)
       {
+        fnsplit((p+sr.Name).c_str(),NULL,NULL,n,e);
+        name=n;
+        ext=e;
         if(((sr.Attr & faAnyFile) == sr.Attr) &&(MatchesMask(sr.Name, t)))
+        {
+          LFile->Add(sr.Name);
+          LSearchF->Add(p);
+        }
+        else if (((sr.Attr & faAnyFile) == sr.Attr) &&(name==t))
+        {
+          LFile->Add(sr.Name);
+          LSearchF->Add(p);
+        }
+        else if (((sr.Attr & faAnyFile) == sr.Attr) &&(ext==t))
         {
           LFile->Add(sr.Name);
           LSearchF->Add(p);

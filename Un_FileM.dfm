@@ -17,6 +17,34 @@ object Fr_Main: TFr_Main
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
+  object Lb1: TLabel
+    Left = 344
+    Top = 0
+    Width = 201
+    Height = 25
+    Alignment = taCenter
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Lb2: TLabel
+    Left = 960
+    Top = 0
+    Width = 201
+    Height = 25
+    Alignment = taCenter
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Lv1: TListView
     Left = 0
     Top = 24

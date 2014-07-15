@@ -38,6 +38,8 @@ __published:	// IDE-managed Components
         TButton *BtS2;
         TPopupMenu *PopupMenu3;
         TMenuItem *ToPath;
+        TLabel *Lb1;
+        TLabel *Lb2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);

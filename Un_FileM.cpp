@@ -549,7 +549,6 @@ void __fastcall TFr_Main::Search(TObject *Sender)
   }
   if (path=="")
   {
-    DiskList(((TListView*)Sender));
     for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
       Find(((TListView*)Sender)->Items->Item[i]->Caption,text);
     path="Компьютер";
@@ -639,6 +638,31 @@ void __fastcall TFr_Main::Ed(TObject *Sender)
   {
     ((TEdit*)Sender)->Font->Color=clWindowText;
     ((TEdit*)Sender)->Text="";
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::ToPathClick(TObject *Sender)
+{
+  if (Lv1->Selected)
+  {
+    path1=Lv1->Selected->SubItems->Text;
+    char *p=path1.c_str();
+    p[path1.Length()-1]='\0';
+    for (int i=path1.Length();p[i-2]!='\\';i--)
+      p[i-2]='\0';
+    path1=p;
+    FileList(Lv1);
+  }
+  else
+  {
+    path2=Lv2->Selected->SubItems->Text;
+    char *p=path2.c_str();
+    p[path2.Length()-1]='\0';
+    for (int i=path2.Length();p[i-2]!='\\';i--)
+      p[i-2]='\0';
+    path2=p;
+    FileList(Lv2);
   }
 }
 //---------------------------------------------------------------------------

@@ -63,6 +63,7 @@ __published:	// IDE-managed Components
         void __fastcall Search(TObject *Sender);
         void __fastcall Find(AnsiString p, AnsiString t);
         void __fastcall Ed(TObject *Sender);
+        void __fastcall ToPathClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;

@@ -16,6 +16,7 @@ TFr_Main *Fr_Main;
 __fastcall TFr_Main::TFr_Main(TComponent* Owner)
         : TForm(Owner)
 {
+  Fr_Main->Enabled=true;
   flPaste=0;
   LDir=new TStringList;
   LFile=new TStringList;
@@ -394,6 +395,15 @@ void __fastcall TFr_Main::PopupMenu(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::PopupMenuS(TObject *Sender)
+{
+  if (((TPopupMenu*)Sender)->Name=="PopupMenu3")
+    PopupIdent(Lv1,((TPopupMenu*)Sender));
+  else
+    PopupIdent(Lv2,((TPopupMenu*)Sender));
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl)
 {
   if (fl==0)
@@ -417,6 +427,19 @@ void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup)
+{
+  if (((TListView*)Sender)->Selected)
+  {
+    ((TPopupMenu*)Popup)->Items->Find("Перейти к месторасположению")->Enabled=true;
+    return;
+  }
+  if (!((TListView*)Sender)->Selected)
+  {
+    ((TPopupMenu*)Popup)->Items->Find("Перейти к месторасположению")->Enabled=false;
+    return;
+  }
+}
 void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt)
 {
   if (((TPopupMenu*)Sender)->Items->Find("Вырезать"))
@@ -486,48 +509,43 @@ void __fastcall TFr_Main::Lv(TObject *Sender)
 
 void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 {
-  ((TButton*)Sender)->Enabled=false;
+  Fr_Main->Enabled=false;
   if (((TButton*)Sender)->Name=="BtS1")
   {
-    BtHome1->Enabled=false;
-    Lv1->Enabled=false;
     Lb1->Caption="Выполняется поиск...";
     Search(Lv1);
-    BtHome1->Enabled=true;
     Lb1->Caption="";
-    Lv1->Enabled=true;
   }
   else
   {
-    BtHome2->Enabled=false;
-    Lv2->Enabled=false;
     Lb2->Caption="Выполняется поиск...";
     Search(Lv2);
-    BtHome2->Enabled=true;
     Lb2->Caption="";
-    Lv2->Enabled=true;
   }
-  ((TButton*)Sender)->Enabled=true;
+  Fr_Main->Enabled=true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::Search(TObject *Sender)
 {
-  ((TListView*)Sender)->PopupMenu=PopupMenu3;
   AnsiString text;
   AnsiString path;
   int fl;
   if (((TListView*)Sender)==Lv1)
   {
     path=path1;
+    if (path=="")
+      DiskList(((TListView*)Sender));
     text=Ed1->Text;
-    fl=fl1;
+    Lv1->PopupMenu=PopupMenu3;
   }
   else
   {
     path=path2;
+    if (path=="")
+      DiskList(((TListView*)Sender));
     text=Ed2->Text;
-    fl=fl2;
+    Lv2->PopupMenu=PopupMenu4;
   }
   if (path=="")
   {
@@ -558,13 +576,12 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     ListItem->SubItems->Add(LSearchF->Strings[i]);
     ListItem->ImageIndex=-1;
   }
-  MessageDlg("В каталоге "+path+" найдено "+Lv1->Items->Count+" файлов и/или папок.",mtInformation,TMsgDlgButtons()<<mbOK,0);
+  MessageDlg("В каталоге "+path+" найдено "+((TListView*)Sender)->Items->Count+" файлов и/или папок.",mtInformation,TMsgDlgButtons()<<mbOK,0);
   LDir->Clear();
   LFile->Clear();
   LSearchD->Clear();
   LSearchF->Clear();
   path="";
-  fl=5;
 }
 //---------------------------------------------------------------------------
 

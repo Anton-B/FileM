@@ -37,9 +37,11 @@ __published:	// IDE-managed Components
         TEdit *Ed2;
         TButton *BtS2;
         TPopupMenu *PopupMenu3;
-        TMenuItem *ToPath;
+        TMenuItem *ToPath1;
         TLabel *Lb1;
         TLabel *Lb2;
+        TPopupMenu *PopupMenu4;
+        TMenuItem *ToPath2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -51,8 +53,10 @@ __published:	// IDE-managed Components
         void __fastcall Cut(TObject *Sender);
         void __fastcall Ident(int imInd, AnsiString capt);
         void __fastcall PopupMenu(TObject *Sender);
+        void __fastcall PopupMenuS(TObject *Sender);
         void __fastcall DelDir(AnsiString Dir);
         void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl);
+        void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup);
         void __fastcall PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt);
         void __fastcall Home(TObject *Sender);
         void __fastcall SearchIdent(TObject *Sender);
@@ -65,7 +69,7 @@ public:		// User declarations
         TListColumn  *NewColumn;
         TListItem  *ListItem;
         TSearchRec sr;
-        AnsiString dl, path1, path2, cpPath, file, ctPath, tmp, srchW;
+        AnsiString path1, path2, cpPath, file, ctPath, tmp;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
         int fl1, fl2, flCut, flPaste, ctImInd;
 

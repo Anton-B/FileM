@@ -120,6 +120,7 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 {
+  //ShowMessage(K);
   AnsiString path;
   int fl;
   if (((TListView*)Sender)==Lv1)
@@ -132,7 +133,8 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     path=path2;
     fl=fl2;
   }
-  if (((TListView*)Sender)->Selected)
+  //ShowMessage(K);
+  if (((TListView*)Sender)->Selected&&K!=8)
   {
     if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
@@ -173,8 +175,46 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     }
     FileList(((TListView*)Sender));
   }
+  else if (K==8)
+  {
+    if ((fl==-1)||(fl==0))
+    {
+      DiskList(((TListView*)Sender));
+      if (((TListView*)Sender)==Lv1)
+      {
+        path1=path;
+        fl1=fl;
+      }
+      else
+      {
+        path2=path;
+        fl2=fl;
+      }
+      return;
+    }
+    else
+    {
+      char *p=path.c_str();
+      p[path.Length()-1]='\0';
+      for (int i=path.Length();p[i-2]!='\\';i--)
+        p[i-2]='\0';
+      path=p;
+      if (((TListView*)Sender)==Lv1)
+      {
+        path1=path;
+        fl1=fl;
+      }
+      else
+      {
+        path2=path;
+        fl2=fl;
+      }
+      FileList(((TListView*)Sender));
+    }
+  }
   else
     return;
+  K=0;
 }
 //---------------------------------------------------------------------------
 
@@ -469,9 +509,15 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
 void __fastcall TFr_Main::Home(TObject *Sender)
 {
   if (((TButton*)Sender)->Name=="BtHome1")
+  {
     DiskList(Lv1);
+    Lv1->SetFocus();
+  }
   else
+  {
     DiskList(Lv2);
+    Lv2->SetFocus();
+  }
 }
 //---------------------------------------------------------------------------
 
@@ -515,12 +561,14 @@ void __fastcall TFr_Main::SearchIdent(TObject *Sender)
     Lb1->Caption="Выполняется поиск...";
     Search(Lv1);
     Lb1->Caption="";
+    Lv1->SetFocus();
   }
   else
   {
     Lb2->Caption="Выполняется поиск...";
     Search(Lv2);
     Lb2->Caption="";
+    Lv2->SetFocus();
   }
   Fr_Main->Enabled=true;
 }
@@ -664,6 +712,19 @@ void __fastcall TFr_Main::ToPathClick(TObject *Sender)
     path2=p;
     FileList(Lv2);
   }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::LvKeyUp(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+  if (Key==VK_RETURN||Key==VK_BACK)
+  {
+    if (Key==VK_BACK)
+      K=8;
+    ListDblClick(((TListView*)Sender));
+  }
+  //ShowMessage(K);
 }
 //---------------------------------------------------------------------------
 

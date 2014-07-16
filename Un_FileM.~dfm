@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 428
-  Top = 249
+  Left = 551
+  Top = 339
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -68,6 +68,7 @@ object Fr_Main: TFr_Main
     TabOrder = 0
     ViewStyle = vsReport
     OnDblClick = ListDblClick
+    OnKeyUp = LvKeyUp
   end
   object Lv2: TListView
     Left = 616
@@ -92,6 +93,7 @@ object Fr_Main: TFr_Main
     TabOrder = 1
     ViewStyle = vsReport
     OnDblClick = ListDblClick
+    OnKeyUp = LvKeyUp
   end
   object BtHome1: TButton
     Left = 544
@@ -106,6 +108,7 @@ object Fr_Main: TFr_Main
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    TabStop = False
     OnClick = Home
   end
   object Ed1: TEdit
@@ -118,6 +121,7 @@ object Fr_Main: TFr_Main
       't'#13#10'example.*'
     HelpType = htKeyword
     HelpKeyword = #1077#1085#1086#1077#1085#1086
+    TabStop = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clInactiveCaption
     Font.Height = -13
@@ -143,6 +147,7 @@ object Fr_Main: TFr_Main
     Font.Style = []
     ParentFont = False
     TabOrder = 5
+    TabStop = False
     OnClick = SearchIdent
   end
   object BtHome2: TButton
@@ -158,6 +163,7 @@ object Fr_Main: TFr_Main
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    TabStop = False
     OnClick = Home
   end
   object Ed2: TEdit
@@ -170,6 +176,7 @@ object Fr_Main: TFr_Main
       't'#13#10'example.*'
     HelpType = htKeyword
     HelpKeyword = #1077#1085#1086#1077#1085#1086
+    TabStop = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clInactiveCaption
     Font.Height = -13
@@ -195,6 +202,7 @@ object Fr_Main: TFr_Main
     Font.Style = []
     ParentFont = False
     TabOrder = 7
+    TabStop = False
     OnClick = SearchIdent
   end
   object ImgL1: TImageList
@@ -348,20 +356,17 @@ object Fr_Main: TFr_Main
       Tag = 1
       Caption = #1042#1099#1088#1077#1079#1072#1090#1100
       Enabled = False
-      ShortCut = 16472
       OnClick = Lv
     end
     object N2: TMenuItem
       Tag = 2
       Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
       Enabled = False
-      ShortCut = 16451
       OnClick = Lv
     end
     object N3: TMenuItem
       Tag = 3
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100
-      ShortCut = 16470
       OnClick = Lv
     end
     object N9: TMenuItem
@@ -371,7 +376,6 @@ object Fr_Main: TFr_Main
       Tag = 4
       Caption = #1059#1076#1072#1083#1080#1090#1100
       Enabled = False
-      ShortCut = 8238
       OnClick = Lv
     end
   end
@@ -384,20 +388,17 @@ object Fr_Main: TFr_Main
       Tag = 5
       Caption = #1042#1099#1088#1077#1079#1072#1090#1100
       Enabled = False
-      ShortCut = 16472
       OnClick = Lv
     end
     object N6: TMenuItem
       Tag = 6
       Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
       Enabled = False
-      ShortCut = 16451
       OnClick = Lv
     end
     object N7: TMenuItem
       Tag = 7
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100
-      ShortCut = 16470
       OnClick = Lv
     end
     object MenuItem4: TMenuItem
@@ -407,7 +408,6 @@ object Fr_Main: TFr_Main
       Tag = 8
       Caption = #1059#1076#1072#1083#1080#1090#1100
       Enabled = False
-      ShortCut = 8238
       OnClick = Lv
     end
   end

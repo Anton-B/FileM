@@ -64,6 +64,8 @@ __published:	// IDE-managed Components
         void __fastcall Find(AnsiString p, AnsiString t);
         void __fastcall Ed(TObject *Sender);
         void __fastcall ToPathClick(TObject *Sender);
+        void __fastcall LvKeyUp(TObject *Sender, WORD &Key,
+          TShiftState Shift);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;
@@ -73,6 +75,7 @@ public:		// User declarations
         AnsiString path1, path2, cpPath, file, ctPath, tmp;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
         int fl1, fl2, flCut, flPaste, ctImInd;
+        WORD K;
 
         __fastcall TFr_Main(TComponent* Owner);
 };

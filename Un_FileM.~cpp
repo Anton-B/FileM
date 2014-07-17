@@ -182,9 +182,7 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
       return;
     }
     if (fl==0)
-    {
       path=((TListView*)Sender)->Selected->Caption;
-    }
     else
       path+=((TListView*)Sender)->Selected->Caption+"\\";
     if (((TListView*)Sender)==Lv1)

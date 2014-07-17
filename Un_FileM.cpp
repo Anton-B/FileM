@@ -359,6 +359,7 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   if (flCut==1)
     Del(((TListView*)Sender));
   flCut=0;
+  flPaste=0;
   file="";
   cpPath="";
   FileList(Lv1);

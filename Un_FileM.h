@@ -11,6 +11,7 @@
 #include <ComCtrls.hpp>
 #include <ImgList.hpp>
 #include <FileCtrl.hpp>
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TFr_Main : public TForm
 {
@@ -42,6 +43,11 @@ __published:	// IDE-managed Components
         TLabel *Lb2;
         TPopupMenu *PopupMenu4;
         TMenuItem *ToPath2;
+        TShape *Shape1;
+        TEdit *EdPath1;
+        TButton *BtPath1;
+        TEdit *EdPath2;
+        TButton *BtPath2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
@@ -66,6 +72,7 @@ __published:	// IDE-managed Components
         void __fastcall ToPathClick(TObject *Sender);
         void __fastcall LvKeyUp(TObject *Sender, WORD &Key,
           TShiftState Shift);
+        void __fastcall BtPathClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;

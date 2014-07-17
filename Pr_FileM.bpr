@@ -11,8 +11,8 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) Un_FileM.dfm"/>
     <LIBFILES value=""/>
-    <LIBRARIES value="vclx.lib rtl.lib vcl.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib vclx.lib"/>
+    <LIBRARIES value="RxCtl6.lib vclx.lib rtl.lib vcl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib vclx.lib RxCtl6.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
       vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi 
       teedb.bpi tee.bpi dss.bpi teeqr.bpi visualclx.bpi visualdbclx.bpi 
@@ -30,15 +30,13 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT"/>
     <MAINSOURCE value="Pr_FileM.cpp"/>
-    <INCLUDEPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;C:\Program Files (x86)\Borland\CBuilder6\Rx\units&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <IDLCFLAGS value="-I&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot; 
-      -I&quot;C:\Program Files (x86)\Borland\CBuilder6\Rx\units&quot; -I$(BCB)\include 
-      -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -boa"/>
+    <IDLCFLAGS value="-I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -boa"/>
     <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
@@ -90,21 +88,23 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+C:\PROGRA~2\Borland\CBUILD~1\Projects\Bpl\RxCtl6.bpl=RX Library Component and Tools Package
+C:\PROGRA~2\Borland\CBUILD~1\Projects\Bpl\RxBDE6.bpl=RX Library BDE DB Component Package
+C:\PROGRA~2\Borland\CBUILD~1\Projects\Bpl\RxDB6.bpl=RX Library DB Component Package
 c:\program files (x86)\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-C:\Program Files (x86)\Borland\CBuilder6\Projects\Bpl\RxCtl6.bpl=RX Library Component and Tools Package
-C:\Program Files (x86)\Borland\CBuilder6\Projects\Bpl\RxBDE6.bpl=RX Library BDE DB Component Package
-C:\Program Files (x86)\Borland\CBuilder6\Projects\Bpl\RxDB6.bpl=RX Library DB Component Package
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=C:\Program Files (x86)\Borland\CBuilder6\Rx\units;$(BCB)\include;$(BCB)\include\vcl
-Item1=$(BCB)\include;$(BCB)\include\vcl
-Item2=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\C++\FileManager;$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=$(BCB)\include;$(BCB)\include\vcl
+Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;C:\Program Files (x86)\Borland\CBuilder6\Rx\units;$(BCB)\include;$(BCB)\include\vcl
+Item2=C:\Program Files (x86)\Borland\CBuilder6\Rx\units;$(BCB)\include;$(BCB)\include\vcl
+Item3=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\C++\FileManager;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\C++\FileManager;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=$(BCB)\Projects\Lib;C:\Program Files (x86)\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\C++\FileManager;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

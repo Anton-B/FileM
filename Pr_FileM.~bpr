@@ -4,15 +4,15 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Pr_FileM.exe"/>
-    <OBJFILES value="Pr_FileM.obj Un_FileM.obj Un_FileM_Search.obj"/>
+    <OBJFILES value="Pr_FileM.obj Un_FileM.obj"/>
     <RESFILES value="Pr_FileM.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) Un_FileM.dfm Un_FileM_Search.dfm"/>
+    <RESDEPEN value="$(RESFILES) Un_FileM.dfm"/>
     <LIBFILES value=""/>
-    <LIBRARIES value="vclx.lib rtl.lib vcl.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib vclx.lib"/>
+    <LIBRARIES value="RxCtl6.lib vclx.lib rtl.lib vcl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib vclx.lib RxCtl6.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
       vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi 
       teedb.bpi tee.bpi dss.bpi teeqr.bpi visualclx.bpi visualdbclx.bpi 
@@ -31,7 +31,7 @@
     <SYSDEFINES value="NO_STRICT"/>
     <MAINSOURCE value="Pr_FileM.cpp"/>
     <INCLUDEPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;C:\Program Files (x86)\Borland\CBuilder6\Rx\units&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -57,7 +57,6 @@
       <FILE FILENAME="Pr_FileM.res" FORMNAME="" UNITNAME="Pr_FileM.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Pr_FileM.cpp" FORMNAME="" UNITNAME="Pr_FileM" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Un_FileM.cpp" FORMNAME="Fr_Main" UNITNAME="Un_FileM" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Un_FileM_Search.cpp" FORMNAME="Fr_Search" UNITNAME="Un_FileM_Search" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

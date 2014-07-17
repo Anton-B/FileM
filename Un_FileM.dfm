@@ -1,11 +1,11 @@
 object Fr_Main: TFr_Main
-  Left = 386
-  Top = 249
+  Left = 312
+  Top = 228
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
-  ClientHeight = 684
-  ClientWidth = 1216
+  ClientHeight = 715
+  ClientWidth = 1233
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -45,11 +45,33 @@ object Fr_Main: TFr_Main
     Font.Style = []
     ParentFont = False
   end
-  object Lv1: TListView
+  object Shape1: TShape
     Left = 0
     Top = 24
+    Width = 1217
+    Height = 1
+    Brush.Color = clNone
+  end
+  object BtPath1: TButton
+    Left = 544
+    Top = 24
+    Width = 73
+    Height = 25
+    Caption = #1055#1077#1088#1077#1081#1090#1080
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 9
+    OnClick = BtPathClick
+  end
+  object Lv1: TListView
+    Left = 0
+    Top = 48
     Width = 616
-    Height = 660
+    Height = 668
     Columns = <
       item
         Caption = #1048#1084#1103
@@ -72,9 +94,9 @@ object Fr_Main: TFr_Main
   end
   object Lv2: TListView
     Left = 616
-    Top = 24
-    Width = 600
-    Height = 660
+    Top = 48
+    Width = 617
+    Height = 668
     Columns = <
       item
         Caption = #1048#1084#1103
@@ -150,22 +172,6 @@ object Fr_Main: TFr_Main
     TabStop = False
     OnClick = SearchIdent
   end
-  object BtHome2: TButton
-    Left = 1144
-    Top = 0
-    Width = 73
-    Height = 25
-    Caption = #1044#1086#1084#1086#1081
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 3
-    TabStop = False
-    OnClick = Home
-  end
   object Ed2: TEdit
     Left = 616
     Top = 0
@@ -205,8 +211,65 @@ object Fr_Main: TFr_Main
     TabStop = False
     OnClick = SearchIdent
   end
+  object EdPath1: TEdit
+    Left = 0
+    Top = 24
+    Width = 545
+    Height = 25
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 8
+  end
+  object EdPath2: TEdit
+    Left = 616
+    Top = 24
+    Width = 545
+    Height = 25
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 10
+  end
+  object BtPath2: TButton
+    Left = 1160
+    Top = 24
+    Width = 73
+    Height = 25
+    Caption = #1055#1077#1088#1077#1081#1090#1080
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 11
+    OnClick = BtPathClick
+  end
+  object BtHome2: TButton
+    Left = 1160
+    Top = 0
+    Width = 73
+    Height = 25
+    Caption = #1044#1086#1084#1086#1081
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    TabStop = False
+    OnClick = Home
+  end
   object ImgL1: TImageList
-    Left = 136
+    Left = 8
     Top = 648
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
@@ -351,7 +414,7 @@ object Fr_Main: TFr_Main
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu
     Left = 8
-    Top = 648
+    Top = 680
     object N1: TMenuItem
       Tag = 1
       Caption = #1042#1099#1088#1077#1079#1072#1090#1100
@@ -382,8 +445,8 @@ object Fr_Main: TFr_Main
   object PopupMenu2: TPopupMenu
     Tag = 78
     OnPopup = PopupMenu
-    Left = 40
-    Top = 648
+    Left = 624
+    Top = 680
     object N5: TMenuItem
       Tag = 5
       Caption = #1042#1099#1088#1077#1079#1072#1090#1100
@@ -413,8 +476,8 @@ object Fr_Main: TFr_Main
   end
   object PopupMenu3: TPopupMenu
     OnPopup = PopupMenuS
-    Left = 72
-    Top = 648
+    Left = 40
+    Top = 680
     object ToPath1: TMenuItem
       Caption = #1055#1077#1088#1077#1081#1090#1080' '#1082' '#1084#1077#1089#1090#1086#1088#1072#1089#1087#1086#1083#1086#1078#1077#1085#1080#1102
       Enabled = False
@@ -423,8 +486,8 @@ object Fr_Main: TFr_Main
   end
   object PopupMenu4: TPopupMenu
     OnPopup = PopupMenuS
-    Left = 104
-    Top = 648
+    Left = 656
+    Top = 680
     object ToPath2: TMenuItem
       Caption = #1055#1077#1088#1077#1081#1090#1080' '#1082' '#1084#1077#1089#1090#1086#1088#1072#1089#1087#1086#1083#1086#1078#1077#1085#1080#1102
       Enabled = False

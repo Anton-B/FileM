@@ -65,11 +65,13 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
   {
     path1="";
     fl1=0;
+    EdPath1->Text="";
   }
   else
   {
     path2="";
     fl2=0;
+    EdPath2->Text="";
   }
   int BufferSize = GetLogicalDriveStrings(0, NULL);
   char *Buffer = new char[BufferSize];
@@ -199,7 +201,6 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   }
   else
     return;
-
 }
 //---------------------------------------------------------------------------
 
@@ -293,11 +294,13 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
   {
     path1=path;
     fl1=fl;
+    EdPath1->Text=path1;
   }
   else
   {
     path2=path;
     fl2=fl;
+    EdPath2->Text=path2;
   }
   Application->ProcessMessages();
 }
@@ -707,6 +710,42 @@ void __fastcall TFr_Main::LvKeyUp(TObject *Sender, WORD &Key,
       K=8;
     ListDblClick(((TListView*)Sender));
     K=0;
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::BtPathClick(TObject *Sender)
+{
+  AnsiString path;
+  if (((TButton*)Sender)->Name=="BtPath1")
+  {
+    path=path1=EdPath1->Text;
+    if (path1=="")
+      DiskList(Lv1);
+    else
+    {
+      char *p=path.c_str();
+      if (p[path.Length()-1]!='\\')
+        path+="\\";
+      path1=path;
+      FileList(Lv1);
+    }
+    Lv1->SetFocus();
+  }
+  else
+  {
+    path=path2=EdPath2->Text;
+    if (path2=="")
+      DiskList(Lv2);
+    else
+      {
+        char *p=path.c_str();
+        if (p[path.Length()-1]!='\\')
+          path+="\\";
+        path2=path;
+        FileList(Lv2);
+    }
+    Lv2->SetFocus();
   }
 }
 //---------------------------------------------------------------------------

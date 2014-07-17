@@ -133,9 +133,10 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     path=path2;
     fl=fl2;
   }
-  //ShowMessage(K);
+
   if (((TListView*)Sender)->Selected&&K!=8)
   {
+    K=0;
     if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
       ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
@@ -177,9 +178,9 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   }
   else if (K==8)
   {
+    K=0;
     if ((fl==-1)||(fl==0))
     {
-      DiskList(((TListView*)Sender));
       if (((TListView*)Sender)==Lv1)
       {
         path1=path;
@@ -190,6 +191,8 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
         path2=path;
         fl2=fl;
       }
+      DiskList(((TListView*)Sender));
+      
       return;
     }
     else
@@ -214,7 +217,7 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   }
   else
     return;
-  K=0;
+
 }
 //---------------------------------------------------------------------------
 
@@ -682,11 +685,8 @@ void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
 //---------------------------------------------------------------------------
 void __fastcall TFr_Main::Ed(TObject *Sender)
 {
-  if (((TEdit*)Sender)->Font->Color==clInactiveCaption)
-  {
-    ((TEdit*)Sender)->Font->Color=clWindowText;
+  if (((TEdit*)Sender)->Text=="¬ведите слово дл€ поиска...")
     ((TEdit*)Sender)->Text="";
-  }
 }
 //---------------------------------------------------------------------------
 
@@ -723,6 +723,7 @@ void __fastcall TFr_Main::LvKeyUp(TObject *Sender, WORD &Key,
     if (Key==VK_BACK)
       K=8;
     ListDblClick(((TListView*)Sender));
+    K=0;
   }
   //ShowMessage(K);
 }

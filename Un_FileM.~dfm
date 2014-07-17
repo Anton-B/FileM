@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 551
-  Top = 339
+  Left = 386
+  Top = 249
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -123,7 +123,7 @@ object Fr_Main: TFr_Main
     HelpKeyword = #1077#1085#1086#1077#1085#1086
     TabStop = False
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clInactiveCaption
+    Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
@@ -178,7 +178,7 @@ object Fr_Main: TFr_Main
     HelpKeyword = #1077#1085#1086#1077#1085#1086
     TabStop = False
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clInactiveCaption
+    Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []

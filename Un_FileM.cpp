@@ -29,7 +29,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   {
     LPath->LoadFromFile("fml.fml");
     path1=LPath->Strings[0];
-    FileList(Lv1);
+    CreateFList(Lv1);
   }
   else
     DiskList(Lv1);
@@ -38,7 +38,7 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   {
     LPath->LoadFromFile("fmr.fmr");
     path2=LPath->Strings[0];
-    FileList(Lv2);
+    CreateFList(Lv2);
   }
   else
     DiskList(Lv2);
@@ -172,7 +172,7 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
         path2=path;
         fl2=fl;
       }
-      FileList(((TListView*)Sender));
+      CreateFList(((TListView*)Sender));
     }
   }
   else if  (((TListView*)Sender)->Selected)
@@ -197,32 +197,15 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
       path2=path;
       fl2=fl;
     }
-    FileList(((TListView*)Sender));
+    CreateFList(((TListView*)Sender));
   }
   else
     return;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::FileList(TObject *Sender)
+void __fastcall TFr_Main::FileList(AnsiString &path)
 {
-  AnsiString path;
-  int fl;
-  if (((TListView*)Sender)==Lv1)
-  {
-    Lv1->PopupMenu=PopupMenu1;
-    path=path1;
-    fl=fl1;
-  }
-  else
-  {
-    Lv2->PopupMenu=PopupMenu2;
-    path=path2;
-    fl=fl2;
-  }
-  ((TListView*)Sender)->Column[1]->Caption="Òèï";
-  ((TListView*)Sender)->Column[1]->Alignment=taCenter;
-  fl=1;
   if (FindFirst(path+"\\*.*", faAnyFile, sr) == 0)
   {
     do
@@ -255,6 +238,30 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
     } while (FindNext(sr) == 0);
     FindClose(sr);
   }
+  Application->ProcessMessages();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::CreateFList(TObject *Sender)
+{
+  AnsiString path;
+  int fl;
+  if (((TListView*)Sender)==Lv1)
+  {
+    Lv1->PopupMenu=PopupMenu1;
+    path=path1;
+    fl=fl1;
+  }
+  else
+  {
+    Lv2->PopupMenu=PopupMenu2;
+    path=path2;
+    fl=fl2;
+  }
+  fl=1;
+  FileList(path);
+  ((TListView*)Sender)->Column[1]->Caption="Òèï";
+  ((TListView*)Sender)->Column[1]->Alignment=taCenter;
   ((TListView*)Sender)->Clear();
   if (((TListView*)Sender)->Columns->Count<=2)
   {
@@ -288,7 +295,7 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
   }
   LDir->Clear();
   LFile->Clear();
-  LExt->Clear();              
+  LExt->Clear();
   LSize->Clear();
   if (((TListView*)Sender)==Lv1)
   {
@@ -302,7 +309,6 @@ void __fastcall TFr_Main::FileList(TObject *Sender)
     fl2=fl;
     EdPath2->Text=path2;
   }
-  Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
 
@@ -365,8 +371,8 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   flPaste=0;
   file="";
   cpPath="";
-  FileList(Lv1);
-  FileList(Lv2);
+  CreateFList(Lv1);
+  CreateFList(Lv2);
 }
 //---------------------------------------------------------------------------
 
@@ -389,7 +395,7 @@ void __fastcall TFr_Main::Del(TObject *Sender)
   else
     Ident(ctImInd,ctPath);
   flCut=0;
-  FileList(((TListView*)Sender));
+  CreateFList(((TListView*)Sender));
 }
 //---------------------------------------------------------------------------
 
@@ -686,7 +692,7 @@ void __fastcall TFr_Main::ToPathClick(TObject *Sender)
     for (int i=path1.Length();p[i-2]!='\\';i--)
       p[i-2]='\0';
     path1=p;
-    FileList(Lv1);
+    CreateFList(Lv1);
   }
   else
   {
@@ -696,7 +702,7 @@ void __fastcall TFr_Main::ToPathClick(TObject *Sender)
     for (int i=path2.Length();p[i-2]!='\\';i--)
       p[i-2]='\0';
     path2=p;
-    FileList(Lv2);
+    CreateFList(Lv2);
   }
 }
 //---------------------------------------------------------------------------
@@ -728,7 +734,7 @@ void __fastcall TFr_Main::BtPathClick(TObject *Sender)
       if (p[path.Length()-1]!='\\')
         path+="\\";
       path1=path;
-      FileList(Lv1);
+      CreateFList(Lv1);
     }
     Lv1->SetFocus();
   }
@@ -743,7 +749,7 @@ void __fastcall TFr_Main::BtPathClick(TObject *Sender)
         if (p[path.Length()-1]!='\\')
           path+="\\";
         path2=path;
-        FileList(Lv2);
+        CreateFList(Lv2);
     }
     Lv2->SetFocus();
   }

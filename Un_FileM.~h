@@ -51,7 +51,8 @@ __published:	// IDE-managed Components
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall DiskList(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
-        void __fastcall FileList(TObject *Sender);
+        void __fastcall FileList(AnsiString &path);
+        void __fastcall CreateFList(TObject *Sender);
         void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
         void __fastcall Del(TObject *Sender);

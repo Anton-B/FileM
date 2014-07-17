@@ -120,7 +120,6 @@ void __fastcall TFr_Main::DiskList(TObject *Sender)
 
 void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 {
-  //ShowMessage(K);
   AnsiString path;
   int fl;
   if (((TListView*)Sender)==Lv1)
@@ -133,50 +132,10 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     path=path2;
     fl=fl2;
   }
-
-  if (((TListView*)Sender)->Selected&&K!=8)
-  {
-    K=0;
-    if (((TListView*)Sender)->Selected->ImageIndex==-1)
-    {
-      ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
-      return;
-    }
-    if ((fl==-1)&&(((TListView*)Sender)->Selected->Caption=="<--"))
-    {
-      DiskList(((TListView*)Sender));
-      return;
-    }
+  if  (((TListView*)Sender)->Selected)
     if (((TListView*)Sender)->Selected->Caption=="<--")
-    {
-      char *p=path.c_str();
-      p[path.Length()-1]='\0';
-      for (int i=path.Length();p[i-2]!='\\';i--)
-        p[i-2]='\0';
-      path=p;
-    }
-    else
-    {
-      if (fl==0)
-      {
-        path=((TListView*)Sender)->Selected->Caption;
-      }
-      else
-        path+=((TListView*)Sender)->Selected->Caption+"\\";
-    }
-    if (((TListView*)Sender)==Lv1)
-    {
-      path1=path;
-      fl1=fl;
-    }
-    else
-    {
-      path2=path;
-      fl2=fl;
-    }
-    FileList(((TListView*)Sender));
-  }
-  else if (K==8)
+      K=8;
+  if (K==8)
   {
     K=0;
     if ((fl==-1)||(fl==0))
@@ -192,7 +151,6 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
         fl2=fl;
       }
       DiskList(((TListView*)Sender));
-      
       return;
     }
     else
@@ -214,6 +172,30 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
       }
       FileList(((TListView*)Sender));
     }
+  }
+  else if  (((TListView*)Sender)->Selected)
+  {
+    K=0;
+    if (((TListView*)Sender)->Selected->ImageIndex==-1)
+    {
+      ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
+      return;
+    }
+    if (fl==0)
+      path=((TListView*)Sender)->Selected->Caption;
+    else
+      path+=((TListView*)Sender)->Selected->Caption+"\\";
+    if (((TListView*)Sender)==Lv1)
+    {
+      path1=path;
+      fl1=fl;
+    }
+    else
+    {
+      path2=path;
+      fl2=fl;
+    }
+    FileList(((TListView*)Sender));
   }
   else
     return;
@@ -725,7 +707,6 @@ void __fastcall TFr_Main::LvKeyUp(TObject *Sender, WORD &Key,
     ListDblClick(((TListView*)Sender));
     K=0;
   }
-  //ShowMessage(K);
 }
 //---------------------------------------------------------------------------
 

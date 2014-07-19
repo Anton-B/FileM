@@ -49,7 +49,8 @@ __published:	// IDE-managed Components
         TEdit *EdPath2;
         TButton *BtPath2;
         void __fastcall ListDblClick(TObject *Sender);
-        void __fastcall DiskList(TObject *Sender);
+        void __fastcall CreateDList(TObject *Sender);
+        void __fastcall DiskList(TStringList* &L, int &DiskCount);
         void __fastcall FormDestroy(TObject *Sender);
         void __fastcall FileList(AnsiString &path);
         void __fastcall CreateFList(TObject *Sender);
@@ -74,15 +75,18 @@ __published:	// IDE-managed Components
         void __fastcall LvKeyUp(TObject *Sender, WORD &Key,
           TShiftState Shift);
         void __fastcall BtPathClick(TObject *Sender);
+        void __fastcall IdentLV(TObject *Sender, int i);
 private:	// User declarations
 public:		// User declarations
         TListView *LV;
         TListColumn  *NewColumn;
         TListItem  *ListItem;
+        TPopupMenu *Popup;
+        TEdit *EdPath;
         TSearchRec sr;
-        AnsiString path1, path2, cpPath, file, ctPath, tmp;
+        AnsiString path1, path2, cpPath, file, ctPath, tmp, path;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
-        int fl1, fl2, flCut, flPaste, ctImInd;
+        int fl1, fl2, flCut, flPaste, ctImInd, fl;
         WORD K;
 
         __fastcall TFr_Main(TComponent* Owner);

@@ -2,7 +2,7 @@ class TFiles
 {
 public:
         void DiskList(TObject *Sender);
-        void FileList(TObject *Sender);
+        //void FileList(TObject *Sender);
         /*void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
         void __fastcall Del(TObject *Sender);

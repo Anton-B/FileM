@@ -89,15 +89,16 @@ void __fastcall TFr_Main::CreateDList(TObject *Sender)
   TStringList *LDisk= new TStringList;
   int count;
   ((TListView*)Sender)->Clear();
-  LDir->Clear();
-  LDir->Clear();
+  /*LDir->Clear();
+  LFile->Clear();
   LExt->Clear();
-  LSize->Clear();
+  LSize->Clear();*/
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
   ((TListView*)Sender)->Column[1]->Caption="Тип";
   ((TListView*)Sender)->Column[1]->Alignment=taCenter;
-  DiskList(LDisk,count);
+  TFiles D;
+  D.DiskList(LDisk,count);
   for (int i=0;i<count*2;i+=2)
   {
     ListItem = ((TListView*)Sender)->Items->Add();
@@ -106,52 +107,6 @@ void __fastcall TFr_Main::CreateDList(TObject *Sender)
     ListItem->SubItems->Add(LDisk->Strings[i+1]);
   }
   IdentLV(((TListView*)Sender),1);
-}
-
-void __fastcall TFr_Main::DiskList(TStringList* &L, int &DiskCount)
-{
-  int BufferSize = GetLogicalDriveStrings(0, NULL);
-  char *Buffer = new char[BufferSize];
-  TStringList *DiskList = new TStringList;
-  GetLogicalDriveStrings(BufferSize, Buffer);
-  DiskCount = (BufferSize - 1) / 4 ;
-  for(int i = 0; i < DiskCount; i++)
-  {
-    char DiskString[4];
-    CopyMemory(DiskString, (Buffer + i * 4), 4);
-    L->Add(DiskString);
-    
-    int DriveType = GetDriveType(DiskString);
-    switch(DriveType)
-    {
-    case DRIVE_UNKNOWN:
-      L->Add("Неизвестен");
-      break;
-    case DRIVE_NO_ROOT_DIR:
-      L->Add("Отсутствует");
-      break;
-    case DRIVE_REMOVABLE:
-      L->Add("Сменный");
-      break;
-    case DRIVE_FIXED:
-      L->Add("Жесткий");
-      break;
-    case DRIVE_REMOTE:
-      L->Add("Сетевой");
-      break;
-    case DRIVE_CDROM:
-      L->Add("CD-ROM");
-      break;
-    case DRIVE_RAMDISK:
-      L->Add("RAM");
-      break;
-    default:
-      L->Add("Неизвестен");
-      break;
-    }
-  }
-  delete [] Buffer;
-  delete DiskList;
 }
 //---------------------------------------------------------------------------
 
@@ -203,9 +158,11 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 
 void __fastcall TFr_Main::CreateFList(TObject *Sender)
 {
+  //TStringList *LDir=new TStringList, *LFile=new TStringList, *LExt=new TStringList, *LSize=new TStringList;
   IdentLV(((TListView*)Sender),0);
   fl=1;
-  FileList(path);
+  TFiles F;
+  F.FileList(path,LDir,LFile,LExt,LSize);
   ((TListView*)Sender)->Column[1]->Caption="Тип";
   ((TListView*)Sender)->Column[1]->Alignment=taCenter;
   ((TListView*)Sender)->Clear();
@@ -247,8 +204,9 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::FileList(AnsiString &path)
+/*void __fastcall TFr_Main::FileList(AnsiString &path)
 {
+  TSearchRec sr;
   if (FindFirst(path+"\\*.*", faAnyFile, sr) == 0)
   {
     do
@@ -282,7 +240,7 @@ void __fastcall TFr_Main::FileList(AnsiString &path)
     FindClose(sr);
   }
   Application->ProcessMessages();
-}
+} */
 //---------------------------------------------------------------------------
 
 void __fastcall TFr_Main::FormDestroy(TObject *Sender)
@@ -305,16 +263,50 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFr_Main::Lv(TObject *Sender)
+{
+  TFiles O;
+  switch (((TMenuItem*)Sender)->Tag)
+  {
+    case 1:
+      Cut(Lv1);
+      break;
+    case 2:
+      Copy(Lv1);
+      break;
+    case 3:
+      Paste(Lv1);
+      break;
+    case 4:
+      Del(Lv1);
+      break;
+    case 5:
+      Cut(Lv2);
+      break;
+    case 6:
+      Copy(Lv2);
+      break;
+    case 7:
+      Paste(Lv2);
+      break;
+    case 8:
+      Del(Lv2);
+      break;
+  }
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TFr_Main::Copy(TObject *Sender)
 {
   flPaste=1;
-  if (((TListView*)Sender)==Lv1)
+  /*if (((TListView*)Sender)==Lv1)
     tmp=path1;
   else
-    tmp=path2;
+    tmp=path2;*/
+  IdentLV(((TListView*)Sender),0);
   if (((TListView*)Sender)->Selected->ImageIndex==-1)
     file=((TListView*)Sender)->Selected->Caption;
-  cpPath=tmp+((TListView*)Sender)->Selected->Caption;
+  cpPath=path+((TListView*)Sender)->Selected->Caption;
 }
 //---------------------------------------------------------------------------
 
@@ -369,7 +361,7 @@ void __fastcall TFr_Main::Cut(TObject *Sender)
   flPaste=1;
   flCut=1;
   Copy(((TListView*)Sender));
-  ctPath=tmp+((TListView*)Sender)->Selected->Caption;
+  ctPath=path+((TListView*)Sender)->Selected->Caption;
   ctImInd=((TListView*)Sender)->Selected->ImageIndex;
   ((TListView*)Sender)->Selected->Caption="(Вырезано) "+((TListView*)Sender)->Selected->Caption;
 }
@@ -483,38 +475,6 @@ void __fastcall TFr_Main::Home(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::Lv(TObject *Sender)
-{
-  switch (((TMenuItem*)Sender)->Tag)
-  {
-    case 1:
-      Cut(Lv1);
-      break;
-    case 2:
-      Copy(Lv1);
-      break;
-    case 3:
-      Paste(Lv1);
-      break;
-    case 4:
-      Del(Lv1);
-      break;
-    case 5:
-      Cut(Lv2);
-      break;
-    case 6:
-      Copy(Lv2);
-      break;
-    case 7:
-      Paste(Lv2);
-      break;
-    case 8:
-      Del(Lv2);
-      break;
-  }
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 {
   Fr_Main->Enabled=false;
@@ -540,6 +500,8 @@ void __fastcall TFr_Main::Search(TObject *Sender)
 {
   AnsiString text;
   IdentLV(((TListView*)Sender),0);
+  if (path=="")
+      CreateDList(((TListView*)Sender));
   if (((TListView*)Sender)==Lv1)
   {
     text=Ed1->Text;
@@ -550,8 +512,6 @@ void __fastcall TFr_Main::Search(TObject *Sender)
     text=Ed2->Text;
     Lv2->PopupMenu=PopupMenu4;
   }
-  if (path=="")
-      CreateDList(((TListView*)Sender));
   if (path=="")
   {
     for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
@@ -716,4 +676,5 @@ void __fastcall TFr_Main::BtPathClick(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
+
 

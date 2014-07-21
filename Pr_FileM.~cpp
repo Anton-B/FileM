@@ -4,7 +4,15 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("Un_FileM.cpp", Fr_Main);
-USEFORM("Un_FileM_Search.cpp", Fr_Search);
+TListView *LV;
+        TListColumn  *NewColumn;
+        TListItem  *ListItem;
+        TPopupMenu *Popup;
+        TEdit *EdPath;
+        AnsiString path1, path2, cpPath, file, ctPath, tmp, path;
+        TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
+        int fl1, fl2, flCut, flPaste, ctImInd, fl;
+        WORD K;
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -12,7 +20,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         {
                  Application->Initialize();
                  Application->CreateForm(__classid(TFr_Main), &Fr_Main);
-                 Application->CreateForm(__classid(TFr_Search), &Fr_Search);
                  Application->Run();
         }
         catch (Exception &exception)

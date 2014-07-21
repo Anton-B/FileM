@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 383
-  Top = 281
+  Left = 512
+  Top = 158
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -75,11 +75,13 @@ object Fr_Main: TFr_Main
     Columns = <
       item
         Caption = #1048#1084#1103
+        MinWidth = 40
         Width = 155
       end
       item
         Alignment = taCenter
         Caption = #1058#1080#1087
+        MinWidth = 40
         Width = 155
       end>
     ColumnClick = False
@@ -100,11 +102,13 @@ object Fr_Main: TFr_Main
     Columns = <
       item
         Caption = #1048#1084#1103
+        MinWidth = 40
         Width = 155
       end
       item
         Alignment = taCenter
         Caption = #1058#1080#1087
+        MinWidth = 40
         Width = 155
       end>
     ColumnClick = False

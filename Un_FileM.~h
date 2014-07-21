@@ -12,6 +12,7 @@
 #include <ImgList.hpp>
 #include <FileCtrl.hpp>
 #include <ExtCtrls.hpp>
+#include "TFiles.h"
 //---------------------------------------------------------------------------
 class TFr_Main : public TForm
 {
@@ -50,9 +51,7 @@ __published:	// IDE-managed Components
         TButton *BtPath2;
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall CreateDList(TObject *Sender);
-        void __fastcall DiskList(TStringList* &L, int &DiskCount);
         void __fastcall FormDestroy(TObject *Sender);
-        void __fastcall FileList(AnsiString &path);
         void __fastcall CreateFList(TObject *Sender);
         void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
@@ -76,6 +75,7 @@ __published:	// IDE-managed Components
           TShiftState Shift);
         void __fastcall BtPathClick(TObject *Sender);
         void __fastcall IdentLV(TObject *Sender, int i);
+
 private:	// User declarations
 public:		// User declarations
         TListView *LV;
@@ -83,11 +83,13 @@ public:		// User declarations
         TListItem  *ListItem;
         TPopupMenu *Popup;
         TEdit *EdPath;
-        TSearchRec sr;
         AnsiString path1, path2, cpPath, file, ctPath, tmp, path;
         TStringList *LDir, *LFile, *LExt, *LSize, *LPath, *LSearchD, *LSearchF;
         int fl1, fl2, flCut, flPaste, ctImInd, fl;
         WORD K;
+
+        friend void TFiles::DiskList(TStringList* &L, int &DiskCount);
+        friend void TFiles::FileList(AnsiString &path, TStringList* LD, TStringList* LF, TStringList* LE, TStringList* LS);
 
         __fastcall TFr_Main(TComponent* Owner);
 };

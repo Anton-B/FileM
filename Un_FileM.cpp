@@ -231,14 +231,15 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
     {
       ListItem = ((TListView*)Sender)->Items->Add();
       ListItem->Caption = "<--";
-      ListItem->ImageIndex=0;
+      ListItem->ImageIndex=7;
       i=1;
       fl=-1;
     }
     ListItem = ((TListView*)Sender)->Items->Add();
     ListItem->Caption = LDir->Strings[i];
     ListItem->SubItems->Add("Папка");
-    ListItem->ImageIndex=0;
+    SetIcon(ListItem->Caption,0);
+    //ListItem->ImageIndex=0;
   }
   for (int i=0;i<LFile->Count;i++)
   {
@@ -246,13 +247,41 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
     ListItem->Caption = LFile->Strings[i];
     ListItem->SubItems->Add(LExt->Strings[i]);
     ListItem->SubItems->Add(LSize->Strings[i]);
-    ListItem->ImageIndex=-1;
+    SetIcon(ListItem->Caption,1);
+    //ListItem->ImageIndex=-1;
   }
   LDir->Clear();
   LFile->Clear();
   LExt->Clear();
   LSize->Clear();
   IdentLV(((TListView*)Sender),1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::SetIcon(AnsiString c, int i)
+{
+  if (i==0)
+  {
+    if (c=="<--")
+      ListItem->ImageIndex=7;
+    else
+      ListItem->ImageIndex=0;
+  }
+  else
+  {
+    if(ExtractFileExt(c)==".pdf")
+      ListItem->ImageIndex=8;
+    else if(ExtractFileExt(c)==".exe")
+      ListItem->ImageIndex=6;
+    else if(ExtractFileExt(c)==".txt"||ExtractFileExt(c)==".doc"||ExtractFileExt(c)==".docx")
+      ListItem->ImageIndex=5;
+    else if(ExtractFileExt(c)==".png"||ExtractFileExt(c)==".jpg"||ExtractFileExt(c)==".jpeg"||ExtractFileExt(c)==".bmp"||ExtractFileExt(c)==".gif")
+      ListItem->ImageIndex=3;
+    else if(ExtractFileExt(c)==".7z"||ExtractFileExt(c)==".zip"||ExtractFileExt(c)==".rar")
+      ListItem->ImageIndex=2;
+    else
+      ListItem->ImageIndex=4;
+  }
 }
 //---------------------------------------------------------------------------
 

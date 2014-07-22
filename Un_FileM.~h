@@ -78,6 +78,7 @@ __published:	// IDE-managed Components
           TShiftState Shift);
         void __fastcall BtPathClick(TObject *Sender);
         void __fastcall IdentLV(TObject *Sender, int i);
+        void __fastcall SetIcon(AnsiString c, int i);
 
 private:	// User declarations
 public:		// User declarations

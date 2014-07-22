@@ -1,11 +1,19 @@
 //---------------------------------------------------------------------------
 
+#define NO_WIN32_LEAN_AND_MEAN
 #include <vcl.h>
 #include <dir.h>
 #include <fstream.h>
 #include <sys\stat.h>
 #include <Masks.hpp>
 #pragma hdrstop
+
+/*#include <windows.h>
+#include <objidl.h>
+#include <intshcut.h>
+#include <shlobj.h>
+#include <iostream>
+#include <string>   */
 
 #include "Un_FileM.h"
 //---------------------------------------------------------------------------
@@ -25,24 +33,41 @@ __fastcall TFr_Main::TFr_Main(TComponent* Owner)
   LPath=new TStringList;
   LSearchD=new TStringList;
   LSearchF=new TStringList;
-  if (FileExists("fml.fml"))
+  if (FileExists("fm.fm"))
   {
-    LPath->LoadFromFile("fml.fml");
-    path1=LPath->Strings[0];
-    CreateFList(Lv1);
+    LPath->LoadFromFile("fm.fm");
+    LoadPath(Lv1,path1,0);
+    LoadPath(Lv2,path2,1);
   }
   else
+  {
     CreateDList(Lv1);
-  LPath->Clear();
-  if (FileExists("fmr.fmr"))
-  {
-    LPath->LoadFromFile("fmr.fmr");
-    path2=LPath->Strings[0];
-    CreateFList(Lv2);
-  }
-  else
     CreateDList(Lv2);
+  }
   LPath->Clear();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::LoadPath(TListView *LV, AnsiString &path, int i)
+{
+  if (LPath->Strings[i]=="")
+    CreateDList(LV);
+  else
+  {
+    path=LPath->Strings[i];
+    CreateFList(LV);
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::FormDestroy(TObject *Sender)
+{
+  DeleteFile("fm.fm");
+  LPath->Clear();
+  LPath->Add(path1);
+  LPath->Add(path2);
+  LPath->SaveToFile("fm.fm");
+  //FileSetAttr("fm.fm",6);
 }
 //---------------------------------------------------------------------------
 
@@ -113,6 +138,7 @@ void __fastcall TFr_Main::CreateDList(TObject *Sender)
 void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 {
   IdentLV(((TListView*)Sender),0);
+
   if  (((TListView*)Sender)->Selected)
     if (((TListView*)Sender)->Selected->Caption=="<--")
       K=8;
@@ -139,6 +165,32 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   else if  (((TListView*)Sender)->Selected)
   {
     K=0;
+    /*if (ExtractFileExt(((TListView*)Sender)->Selected->Caption)==".lnk")
+    {
+    wstring lnk=path.c_str();
+
+    wchar_t link;
+    IPersistFile* pPersistFile=NULL;
+    IShellLink* pLink=NULL;
+    TCHAR szPath[MAX_PATH]={0};
+        if(FAILED(CoInitialize(NULL)))
+            throw "CoInitialize";
+        if(FAILED(CoCreateInstance(CLSID_ShellLink, NULL,CLSCTX_INPROC_SERVER,__uuidof(IShellLink), (void **) &pLink)))
+            throw "CoCreateInstance";
+        if(FAILED(pLink->QueryInterface(IID_IPersistFile,(void **)&pPersistFile)))
+            throw "QueryInterface";
+        if(FAILED(pPersistFile->Load(lnk.c_str(),0x0002)))
+            throw "Load";
+        if(FAILED(pLink->GetPath(szPath,MAX_PATH,NULL,SLGP_RAWPATH)))
+            throw "GetPath";
+        cout<<szPath<<endl;
+    if(pPersistFile)
+        pPersistFile->Release();
+    if(pLink)
+        pLink->Release();
+    CoUninitialize();
+    ShowMessage(szPath);
+   } */
     if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
       ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
@@ -204,65 +256,6 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-/*void __fastcall TFr_Main::FileList(AnsiString &path)
-{
-  TSearchRec sr;
-  if (FindFirst(path+"\\*.*", faAnyFile, sr) == 0)
-  {
-    do
-    {
-      if (sr.Attr & faDirectory)
-      {
-        if (sr.Name!=".")
-        {
-          if (sr.Name=="..")
-            sr.Name="<--";
-          LDir->Add(sr.Name);
-        }
-      }
-      else
-      {
-        LFile->Add(sr.Name);
-        LExt->Add(ExtractFileExt(sr.Name));
-        struct stati64 statbuf;
-        AnsiString p=path+sr.Name;
-        _stati64(p.c_str(), &statbuf);
-        if (statbuf.st_size>=1073741824)
-          LSize->Add(FloatToStr(statbuf.st_size/1073741824)+" ГБ");
-        else if (statbuf.st_size>=1048576)
-          LSize->Add(FloatToStr(statbuf.st_size/1048576)+" МБ");
-        else if (statbuf.st_size>=1024)
-          LSize->Add(FloatToStr(statbuf.st_size/1024)+" КБ");
-        else if (statbuf.st_size<1024)
-          LSize->Add(FloatToStr(statbuf.st_size)+" Б");
-      }
-    } while (FindNext(sr) == 0);
-    FindClose(sr);
-  }
-  Application->ProcessMessages();
-} */
-//---------------------------------------------------------------------------
-
-void __fastcall TFr_Main::FormDestroy(TObject *Sender)
-{
-  DeleteFile("fml.fml");
-  DeleteFile("fmr.fmr");
-  if (path1!="")
-  {
-    LPath->Add(path1);
-    LPath->SaveToFile("fml.fml");
-    //FileSetAttr("fml.fml",6);
-  }
-  LPath->Clear();
-  if (path2!="")
-  {
-    LPath->Add(path2);
-    LPath->SaveToFile("fmr.fmr");
-    //FileSetAttr("fmr.fmr",6);
-  }
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TFr_Main::Lv(TObject *Sender)
 {
   TFiles O;
@@ -300,9 +293,10 @@ void __fastcall TFr_Main::Copy(TObject *Sender)
 {
   flPaste=1;
   IdentLV(((TListView*)Sender),0);
+  tmp=path;
   if (((TListView*)Sender)->Selected->ImageIndex==-1)
     file=((TListView*)Sender)->Selected->Caption;
-  cpPath=path+((TListView*)Sender)->Selected->Caption;
+  cpPath=tmp+((TListView*)Sender)->Selected->Caption;
 }
 //---------------------------------------------------------------------------
 
@@ -328,8 +322,14 @@ void __fastcall TFr_Main::Paste(TObject *Sender)
   flPaste=0;
   file="";
   cpPath="";
-  CreateFList(Lv1);
-  CreateFList(Lv2);
+  if (path1=="")
+    CreateDList(Lv1);
+  else
+    CreateFList(Lv1);
+  if (path2=="")
+    CreateDList(Lv2);
+  else
+    CreateFList(Lv2);
 }
 //---------------------------------------------------------------------------
 
@@ -357,7 +357,7 @@ void __fastcall TFr_Main::Cut(TObject *Sender)
   flPaste=1;
   flCut=1;
   Copy(((TListView*)Sender));
-  ctPath=path+((TListView*)Sender)->Selected->Caption;
+  ctPath=tmp+((TListView*)Sender)->Selected->Caption;
   ctImInd=((TListView*)Sender)->Selected->ImageIndex;
   ((TListView*)Sender)->Selected->Caption="(Вырезано) "+((TListView*)Sender)->Selected->Caption;
 }
@@ -474,25 +474,26 @@ void __fastcall TFr_Main::Home(TObject *Sender)
 void __fastcall TFr_Main::SearchIdent(TObject *Sender)
 {
   Fr_Main->Enabled=false;
+  NumOfFiles=0;
   if (((TButton*)Sender)->Name=="BtS1")
   {
-    Lb1->Caption="Выполняется поиск...";
-    Search(Lv1);
-    Lb1->Caption="";
+    PrBar1->Visible=true;
+    Search(Lv1,PrBar1);
+    PrBar1->Visible=false;
     Lv1->SetFocus();
   }
   else
   {
-    Lb2->Caption="Выполняется поиск...";
-    Search(Lv2);
-    Lb2->Caption="";
+    PrBar2->Visible=true;
+    Search(Lv2,PrBar2);
+    PrBar2->Visible=false;
     Lv2->SetFocus();
   }
   Fr_Main->Enabled=true;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::Search(TObject *Sender)
+void __fastcall TFr_Main::Search(TObject *Sender, TProgressBar* PB)
 {
   AnsiString text;
   IdentLV(((TListView*)Sender),0);
@@ -511,11 +512,19 @@ void __fastcall TFr_Main::Search(TObject *Sender)
   if (path=="")
   {
     for (int i=0;i<((TListView*)Sender)->Items->Count;i++)
-      Find(((TListView*)Sender)->Items->Item[i]->Caption,text);
+    {
+      FilesNum(((TListView*)Sender)->Items->Item[i]->Caption);
+      PB->Max=NumOfFiles;
+      Find(((TListView*)Sender)->Items->Item[i]->Caption,text,PB);
+    }
     path="Компьютер";
   }
   else
-    Find(path,text);
+  {
+    FilesNum(path);
+    PB->Max=NumOfFiles;
+    Find(path,text,PB);
+  }
   ((TListView*)Sender)->Clear();
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
@@ -545,7 +554,30 @@ void __fastcall TFr_Main::Search(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
+void __fastcall TFr_Main::FilesNum(AnsiString p)
+{
+  TSearchRec sr;
+  if(FindFirst(p + "*.*", faAnyFile, sr) == 0)
+  {
+    do
+    {
+      if((sr.Attr & faDirectory) != faDirectory)
+        NumOfFiles++;
+      else
+      {
+        if(sr.Name != "." && sr.Name!= "..")
+        {
+          NumOfFiles++;
+          FilesNum(p + sr.Name + "\\");
+        }
+      }
+    } while (FindNext(sr)==0);
+    FindClose(sr);
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Find(AnsiString p, AnsiString t, TProgressBar* PB)
 {
   AnsiString name,ext;
   char n[MAXFILE], e[MAXEXT];
@@ -556,6 +588,7 @@ void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
     {
       if((sr.Attr & faDirectory) != faDirectory)
       {
+        PB->Position+=1;
         fnsplit((p+sr.Name).c_str(),NULL,NULL,n,e);
         name=n;
         ext=e;
@@ -579,12 +612,13 @@ void __fastcall TFr_Main::Find(AnsiString p, AnsiString t)
       {
         if(sr.Name != "." && sr.Name!= "..")
         {
+          PB->Position+=1;
           if(((sr.Attr & faAnyFile) == sr.Attr) &&(sr.Name==t))
           {
             LDir->Add(sr.Name);
             LSearchD->Add(p);
           }
-          Find(p + sr.Name + "\\", t);
+          Find(p + sr.Name + "\\", t, PB);
         }
       }
       Application->ProcessMessages();

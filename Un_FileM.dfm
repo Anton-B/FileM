@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 512
-  Top = 158
+  Left = 569
+  Top = 363
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -17,20 +17,6 @@ object Fr_Main: TFr_Main
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object Lb1: TLabel
-    Left = 344
-    Top = 0
-    Width = 201
-    Height = 25
-    Alignment = taCenter
-    AutoSize = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-  end
   object Lb2: TLabel
     Left = 960
     Top = 0
@@ -140,7 +126,7 @@ object Fr_Main: TFr_Main
   object Ed1: TEdit
     Left = 0
     Top = 0
-    Width = 273
+    Width = 281
     Height = 24
     Hint = 
       #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
@@ -161,7 +147,7 @@ object Fr_Main: TFr_Main
     OnClick = Ed
   end
   object BtS1: TButton
-    Left = 272
+    Left = 280
     Top = 0
     Width = 73
     Height = 25
@@ -179,7 +165,7 @@ object Fr_Main: TFr_Main
   object Ed2: TEdit
     Left = 616
     Top = 0
-    Width = 273
+    Width = 281
     Height = 24
     Hint = 
       #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
@@ -200,7 +186,7 @@ object Fr_Main: TFr_Main
     OnClick = Ed
   end
   object BtS2: TButton
-    Left = 888
+    Left = 896
     Top = 0
     Width = 73
     Height = 25
@@ -271,6 +257,28 @@ object Fr_Main: TFr_Main
     TabOrder = 3
     TabStop = False
     OnClick = Home
+  end
+  object PrBar1: TProgressBar
+    Left = 368
+    Top = 0
+    Width = 163
+    Height = 25
+    Min = 0
+    Max = 10
+    Step = 1
+    TabOrder = 12
+    Visible = False
+  end
+  object PrBar2: TProgressBar
+    Left = 984
+    Top = 0
+    Width = 163
+    Height = 25
+    Min = 0
+    Max = 10
+    Step = 1
+    TabOrder = 13
+    Visible = False
   end
   object ImgL1: TImageList
     Left = 8

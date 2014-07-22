@@ -1,15 +1,9 @@
+#include "Un_FileM.h"
 class TFiles
 {
 public:
         void DiskList(TStringList* &L, int &DiskCount);
         void FileList(AnsiString &path, TStringList* LD, TStringList* LF, TStringList* LE, TStringList* LS);
-        //void __fastcall Copy(TObject *Sender);
-        //void __fastcall Paste(TObject *Sender);
-        //void __fastcall Del(TObject *Sender);
-        //void __fastcall Cut(TObject *Sender);
-        //void __fastcall Ident(int imInd, AnsiString capt);
-        //void __fastcall DelDir(AnsiString Dir);
-        //void __fastcall Find(AnsiString p, AnsiString t);
 };
 
 void TFiles::DiskList(TStringList* &L, int &DiskCount)
@@ -94,7 +88,6 @@ void TFiles::FileList(AnsiString &path, TStringList* LD, TStringList* LF, TStrin
     FindClose(sr);
   }
   Application->ProcessMessages();
-}                                
-
+}
 
 

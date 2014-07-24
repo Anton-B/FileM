@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 652
-  Top = 230
+  Left = 1158
+  Top = 365
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -37,33 +37,6 @@ object Fr_Main: TFr_Main
     Width = 1217
     Height = 1
     Brush.Color = clNone
-  end
-  object Lv1: TListView
-    Left = 0
-    Top = 49
-    Width = 616
-    Height = 668
-    Columns = <
-      item
-        Caption = #1048#1084#1103
-        MinWidth = 40
-        Width = 155
-      end
-      item
-        Alignment = taCenter
-        Caption = #1058#1080#1087
-        MinWidth = 40
-        Width = 155
-      end>
-    ColumnClick = False
-    ReadOnly = True
-    RowSelect = True
-    PopupMenu = PopupMenu1
-    SmallImages = ImgL1
-    TabOrder = 0
-    ViewStyle = vsReport
-    OnDblClick = ListDblClick
-    OnKeyUp = LvKeyUp
   end
   object Lv2: TListView
     Left = 616
@@ -279,6 +252,33 @@ object Fr_Main: TFr_Main
     TabOrder = 3
     TabStop = False
     OnClick = Home
+  end
+  object Lv1: TListView
+    Left = 0
+    Top = 49
+    Width = 616
+    Height = 668
+    Columns = <
+      item
+        Caption = #1048#1084#1103
+        MinWidth = 40
+        Width = 155
+      end
+      item
+        Alignment = taCenter
+        Caption = #1058#1080#1087
+        MinWidth = 40
+        Width = 155
+      end>
+    ColumnClick = False
+    ReadOnly = True
+    RowSelect = True
+    PopupMenu = PopupMenu1
+    SmallImages = ImgL1
+    TabOrder = 0
+    ViewStyle = vsReport
+    OnDblClick = ListDblClick
+    OnKeyUp = LvKeyUp
   end
   object ImgL1: TImageList
     Left = 8

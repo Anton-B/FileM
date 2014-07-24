@@ -115,10 +115,10 @@ void __fastcall TFr_Main::CreateDList(TObject *Sender)
   TStringList *LDisk= new TStringList;
   int count;
   ((TListView*)Sender)->Clear();
-  /*LDir->Clear();
+  LDir->Clear();
   LFile->Clear();
   LExt->Clear();
-  LSize->Clear();*/
+  LSize->Clear();
   if (((TListView*)Sender)->Columns->Count>2)
     ((TListView*)Sender)->Columns->Delete(2);
   ((TListView*)Sender)->Column[1]->Caption="Òèï";
@@ -166,47 +166,9 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
   else if  (((TListView*)Sender)->Selected)
   {
     K=0;
-    /*if (ExtractFileExt(((TListView*)Sender)->Selected->Caption)==".lnk")
-    {
-    wstring lnk=path.c_str();
-
-    wchar_t link;
-    IPersistFile* pPersistFile=NULL;
-    IShellLink* pLink=NULL;
-    TCHAR szPath[MAX_PATH]={0};
-        if(FAILED(CoInitialize(NULL)))
-            throw "CoInitialize";
-        if(FAILED(CoCreateInstance(CLSID_ShellLink, NULL,CLSCTX_INPROC_SERVER,__uuidof(IShellLink), (void **) &pLink)))
-            throw "CoCreateInstance";
-        if(FAILED(pLink->QueryInterface(IID_IPersistFile,(void **)&pPersistFile)))
-            throw "QueryInterface";
-        if(FAILED(pPersistFile->Load(lnk.c_str(),0x0002)))
-            throw "Load";
-        if(FAILED(pLink->GetPath(szPath,MAX_PATH,NULL,SLGP_RAWPATH)))
-            throw "GetPath";
-        cout<<szPath<<endl;
-    if(pPersistFile)
-        pPersistFile->Release();
-    if(pLink)
-        pLink->Release();
-    CoUninitialize();
-    ShowMessage(szPath)
-
-     AnsiString p=path+((TListView*)Sender)->Selected->Caption, address;
-     ShowMessage(p);
-     char* link;
-     //(p.c_str());
-     ifstream inF;
-     inF.open(p.c_str(), ios::in);
-     inF.close();
-     ShowMessage(path);
-     /*TStringList* Lnk;
-     Lnk->LoadFromFile(p);
-     ShowMessage(Lnk->Strings[0]); 
-     IdentLV(((TListView*)Sender),1);
-     return;
-   } */
-    if (((TListView*)Sender)->Selected->ImageIndex==-1)
+    if (((TListView*)Sender)->Selected->ImageIndex==2||((TListView*)Sender)->Selected->ImageIndex==3||
+                        ((TListView*)Sender)->Selected->ImageIndex==4||((TListView*)Sender)->Selected->ImageIndex==5||
+                        ((TListView*)Sender)->Selected->ImageIndex==6||((TListView*)Sender)->Selected->ImageIndex==8)
     {
       ShellExecute(Handle, "open",((TListView*)Sender)->Selected->Caption.c_str(),NULL,path.c_str(),SW_SHOWNORMAL);
       return;
@@ -568,29 +530,17 @@ void __fastcall TFr_Main::Properties(TObject *Sender)
   }
   int attr = FileGetAttr(p);
   if(attr & faReadOnly)
-  {
     FrProperties->CBReadOnly->State=cbChecked;
-  }
   if(attr & faDirectory)
-  {
     FrProperties->CBDir->State=cbChecked;
-  }
   if(attr & faVolumeID)
-  {
     FrProperties->CBVolumeID->State=cbChecked;
-  }
   if(attr & faSysFile)
-  {
     FrProperties->CBSysFile->State=cbChecked;
-  }
   if(attr & faHidden)
-  {
     FrProperties->CBHidden->State=cbChecked;
-  }
   if(!(attr & faReadOnly)&&!(attr & faDirectory)&&!(attr & faVolumeID)&&!(attr & faSysFile)&&!(attr & faHidden))
-  {
     FrProperties->CBAnyFile->State=cbChecked;
-  }
   FrProperties->ShowModal();
 }
 //---------------------------------------------------------------------------
@@ -616,7 +566,6 @@ void __fastcall TFr_Main::DirSize(AnsiString p, __int64 &s)
       {
         struct stati64 statbuf;
         AnsiString f=p+sr.Name;
-        //ShowMessage(f);
         _stati64(f.c_str(), &statbuf);
 
         s+=statbuf.st_size;

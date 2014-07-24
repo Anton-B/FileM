@@ -460,17 +460,7 @@ void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool n1245, bool n3)
 
 void __fastcall TFr_Main::DelDir(AnsiString Dir)
 {
-  /*SHFILEOPSTRUCT sh;
-  sh.hwnd=Fr_Main->Handle;
-  sh.wFunc = FO_DELETE;
-  sh.pFrom = (Dir+"\0").c_str();
-  sh.pTo = NULL;
-  sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
-  sh.hNameMappings = 0;
-  sh.lpszProgressTitle = NULL;
-  SHFileOperation(&sh);*/
   TSearchRec sr;
-  ShowMessage(Dir);
   if(FindFirst(Dir + "*.*", faAnyFile, sr) == 0)
   {
     do
@@ -478,7 +468,6 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
       if((sr.Attr & faDirectory) != faDirectory)
       {
         DeleteFile(Dir+sr.Name);
-        ShowMessage(Dir+sr.Name);
       }
       else
         if(sr.Name != "." && sr.Name!= "..")
@@ -489,7 +478,6 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
     } while (FindNext(sr)==0);
     FindClose(sr);
   }
-
 }
 //---------------------------------------------------------------------------
 

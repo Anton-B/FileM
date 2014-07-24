@@ -461,7 +461,6 @@ void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool n1245, bool n3)
 void __fastcall TFr_Main::DelDir(AnsiString Dir)
 {
   TSearchRec sr;
-  ShowMessage(Dir);
   if(FindFirst(Dir + "*.*", faAnyFile, sr) == 0)
   {
     do
@@ -469,7 +468,6 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
       if((sr.Attr & faDirectory) != faDirectory)
       {
         DeleteFile(Dir+sr.Name);
-        ShowMessage(Dir+sr.Name);
       }
       else
         if(sr.Name != "." && sr.Name!= "..")

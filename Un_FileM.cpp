@@ -16,6 +16,7 @@
 #include <string>   */
 
 #include "Un_FileM.h"
+#include "Un_FileM_Properties.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -189,7 +190,21 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
     if(pLink)
         pLink->Release();
     CoUninitialize();
-    ShowMessage(szPath);
+    ShowMessage(szPath)
+
+     AnsiString p=path+((TListView*)Sender)->Selected->Caption, address;
+     ShowMessage(p);
+     char* link;
+     //(p.c_str());
+     ifstream inF;
+     inF.open(p.c_str(), ios::in);
+     inF.close();
+     ShowMessage(path);
+     /*TStringList* Lnk;
+     Lnk->LoadFromFile(p);
+     ShowMessage(Lnk->Strings[0]); 
+     IdentLV(((TListView*)Sender),1);
+     return;
    } */
     if (((TListView*)Sender)->Selected->ImageIndex==-1)
     {
@@ -250,6 +265,14 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
     SetIcon(ListItem->Caption,1);
     //ListItem->ImageIndex=-1;
   }
+
+  if (LDir->Count==0)
+    {
+      ListItem = ((TListView*)Sender)->Items->Add();
+      ListItem->Caption = "<--";
+      ListItem->ImageIndex=7;
+      fl=-1;
+    }
   LDir->Clear();
   LFile->Clear();
   LExt->Clear();
@@ -287,7 +310,6 @@ void __fastcall TFr_Main::SetIcon(AnsiString c, int i)
 
 void __fastcall TFr_Main::Lv(TObject *Sender)
 {
-  TFiles O;
   switch (((TMenuItem*)Sender)->Tag)
   {
     case 1:
@@ -313,6 +335,12 @@ void __fastcall TFr_Main::Lv(TObject *Sender)
       break;
     case 8:
       Del(Lv2);
+      break;
+    case 9:
+      Properties(Lv1);
+      break;
+    case 10:
+      Properties(Lv2);
       break;
   }
 }
@@ -425,20 +453,20 @@ void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl)
 {
   if (fl==0)
   {
-    PopupEnable(((TPopupMenu*)Popup),false,false,false,false);
+    PopupEnable(((TPopupMenu*)Popup),false,false);
     return;
   }
   if (((TListView*)Sender)->Selected)
   {
-    PopupEnable(((TPopupMenu*)Popup),true,true,false,true);
+    PopupEnable(((TPopupMenu*)Popup),true,false);
     return;
   }
   if (!((TListView*)Sender)->Selected)
   {
     if (flPaste==0)
-      PopupEnable(((TPopupMenu*)Popup),false,false,false,false);
+      PopupEnable(((TPopupMenu*)Popup),false,false);
     else
-      PopupEnable(((TPopupMenu*)Popup),false,false,true,false);
+      PopupEnable(((TPopupMenu*)Popup),false,true);
     return;
   }
 }
@@ -459,16 +487,18 @@ void __fastcall TFr_Main::PopupIdent(TObject *Sender, TPopupMenu *Popup)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt)
+void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool n1245, bool n3)
 {
   if (((TPopupMenu*)Sender)->Items->Find("Вырезать"))
-    ((TPopupMenu*)Sender)->Items->Find("Вырезать")->Enabled=ct;
+    ((TPopupMenu*)Sender)->Items->Find("Вырезать")->Enabled=n1245;
   if (((TPopupMenu*)Sender)->Items->Find("Копировать"))
-    ((TPopupMenu*)Sender)->Items->Find("Копировать")->Enabled=cp;
+    ((TPopupMenu*)Sender)->Items->Find("Копировать")->Enabled=n1245;
   if (((TPopupMenu*)Sender)->Items->Find("Вставить"))
-    ((TPopupMenu*)Sender)->Items->Find("Вставить")->Enabled=pt;
+    ((TPopupMenu*)Sender)->Items->Find("Вставить")->Enabled=n3;
   if (((TPopupMenu*)Sender)->Items->Find("Удалить"))
-    ((TPopupMenu*)Sender)->Items->Find("Удалить")->Enabled=dt;
+    ((TPopupMenu*)Sender)->Items->Find("Удалить")->Enabled=n1245;
+  if (((TPopupMenu*)Sender)->Items->Find("Свойства"))
+    ((TPopupMenu*)Sender)->Items->Find("Свойства")->Enabled=n1245;
 }
 //---------------------------------------------------------------------------
 
@@ -483,6 +513,123 @@ void __fastcall TFr_Main::DelDir(AnsiString Dir)
   sh.hNameMappings = 0;
   sh.lpszProgressTitle = NULL;
   SHFileOperation(&sh);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::Properties(TObject *Sender)
+{
+  IdentLV(((TListView*)Sender),0);
+  FrProperties->EdName->Text="";
+  FrProperties->EdAddress->Text="";
+  FrProperties->EdSize->Text="";
+  FrProperties->EdCreate->Text="";
+  FrProperties->EdChange->Text="";
+  FrProperties->EdOpen->Text="";
+  FrProperties->CBReadOnly->State=cbUnchecked;
+  FrProperties->CBVolumeID->State=cbUnchecked;
+  FrProperties->CBDir->State=cbUnchecked;
+  FrProperties->CBHidden->State=cbUnchecked;
+  FrProperties->CBAnyFile->State=cbUnchecked;
+  FrProperties->CBSysFile->State=cbUnchecked;
+  __int64 Size=0;
+  AnsiString p=path+((TListView*)Sender)->Selected->Caption;
+  FrProperties->EdName->Text=((TListView*)Sender)->Selected->Caption;
+  FrProperties->EdAddress->Text=path;
+
+  if (((TListView*)Sender)->Selected->SubItems->Strings[0]=="Папка")
+  {
+    DirSize(p+"\\",Size);
+    if (Size>=1073741824)
+      FrProperties->EdSize->Text=FloatToStr(Size/1073741824)+" ГБ";
+    else if (Size>=1048576)
+      FrProperties->EdSize->Text=FloatToStr(Size/1048576)+" МБ";
+    else if (Size>=1024)
+      FrProperties->EdSize->Text=FloatToStr(Size/1024)+" КБ";
+    else if (Size<1024)
+      FrProperties->EdSize->Text=FloatToStr(Size)+" Б";
+
+    FrProperties->Label3->Visible=false;
+    FrProperties->Label4->Visible=false;
+    FrProperties->Label5->Visible=false;
+  }
+  else
+  {
+    FrProperties->EdSize->Text=((TListView*)Sender)->Selected->SubItems->Strings[1];
+    FILETIME ftCreationTime,ftLastAccessTime,ftLastWriteTime;
+    HANDLE hFile=(HANDLE)FileOpen(p.c_str(),fmOpenRead);
+    GetFileTime(hFile,&ftCreationTime,&ftLastAccessTime,&ftLastWriteTime);
+    FrProperties->EdCreate->Text=FormatDateTime("c",FileTimeToDateTime(&ftCreationTime));
+    FrProperties->EdChange->Text=FormatDateTime("c",FileTimeToDateTime(&ftLastWriteTime));
+    FrProperties->EdOpen->Text=FormatDateTime("c",FileTimeToDateTime(&ftLastAccessTime));
+    FileClose((int) hFile);
+    FrProperties->Label3->Visible=true;
+    FrProperties->Label4->Visible=true;
+    FrProperties->Label5->Visible=true;
+  }
+  int attr = FileGetAttr(p);
+  if(attr & faReadOnly)
+  {
+    FrProperties->CBReadOnly->State=cbChecked;
+  }
+  if(attr & faDirectory)
+  {
+    FrProperties->CBDir->State=cbChecked;
+  }
+  if(attr & faVolumeID)
+  {
+    FrProperties->CBVolumeID->State=cbChecked;
+  }
+  if(attr & faSysFile)
+  {
+    FrProperties->CBSysFile->State=cbChecked;
+  }
+  if(attr & faHidden)
+  {
+    FrProperties->CBHidden->State=cbChecked;
+  }
+  if(!(attr & faReadOnly)&&!(attr & faDirectory)&&!(attr & faVolumeID)&&!(attr & faSysFile)&&!(attr & faHidden))
+  {
+    FrProperties->CBAnyFile->State=cbChecked;
+  }
+  FrProperties->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+TDateTime __fastcall TFr_Main::FileTimeToDateTime(FILETIME *lpftime)
+{
+  FILETIME localfiletime;
+  SYSTEMTIME systime;
+  FileTimeToLocalFileTime(lpftime,&localfiletime);
+  FileTimeToSystemTime(&localfiletime,&systime);
+  return(TDateTime(systime.wYear, systime.wMonth, systime.wDay)+TDateTime(systime.wHour, systime.wMinute,systime.wSecond, systime.wMilliseconds));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFr_Main::DirSize(AnsiString p, __int64 &s)
+{
+  TSearchRec sr;
+  if(FindFirst(p + "*.*", faAnyFile, sr) == 0)
+  {
+    do
+    {
+      if((sr.Attr & faDirectory) != faDirectory)
+      {
+        struct stati64 statbuf;
+        AnsiString f=p+sr.Name;
+        //ShowMessage(f);
+        _stati64(f.c_str(), &statbuf);
+
+        s+=statbuf.st_size;
+      }
+      else
+        if(sr.Name != "." && sr.Name!= "..")
+        {
+          DirSize(p + sr.Name + "\\",s);
+        }
+    } while (FindNext(sr)==0);
+    FindClose(sr);
+  }
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TFr_Main::Home(TObject *Sender)

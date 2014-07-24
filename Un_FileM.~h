@@ -23,7 +23,7 @@ __published:	// IDE-managed Components
         TMenuItem *N1;
         TMenuItem *N2;
         TMenuItem *N3;
-        TMenuItem *N9;
+        TMenuItem *N111;
         TMenuItem *N4;
         TListView *Lv2;
         TPopupMenu *PopupMenu2;
@@ -50,6 +50,10 @@ __published:	// IDE-managed Components
         TButton *BtPath2;
         TProgressBar *PrBar1;
         TProgressBar *PrBar2;
+        TMenuItem *N222;
+        TMenuItem *N9;
+        TMenuItem *N12;
+        TMenuItem *N10;
         void __fastcall LoadPath(TListView *LV, AnsiString &path, int i);
         void __fastcall ListDblClick(TObject *Sender);
         void __fastcall CreateDList(TObject *Sender);
@@ -58,6 +62,8 @@ __published:	// IDE-managed Components
         void __fastcall Copy(TObject *Sender);
         void __fastcall Paste(TObject *Sender);
         void __fastcall Del(TObject *Sender);
+        void __fastcall Properties(TObject *Sender);
+        void __fastcall DirSize(AnsiString p, __int64 &s);
         void __fastcall Lv(TObject *Sender);
         void __fastcall Cut(TObject *Sender);
         void __fastcall Ident(int imInd, AnsiString capt);
@@ -66,7 +72,7 @@ __published:	// IDE-managed Components
         void __fastcall DelDir(AnsiString Dir);
         void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup, int fl);
         void __fastcall PopupIdent(TObject *Sender, TPopupMenu *Popup);
-        void __fastcall PopupEnable(TObject *Sender, bool ct, bool cp, bool pt, bool dt);
+        void __fastcall PopupEnable(TObject *Sender, bool n1245, bool n3);
         void __fastcall Home(TObject *Sender);
         void __fastcall SearchIdent(TObject *Sender);
         void __fastcall Search(TObject *Sender, TProgressBar* PB);
@@ -79,6 +85,7 @@ __published:	// IDE-managed Components
         void __fastcall BtPathClick(TObject *Sender);
         void __fastcall IdentLV(TObject *Sender, int i);
         void __fastcall SetIcon(AnsiString c, int i);
+        TDateTime __fastcall FileTimeToDateTime(FILETIME *lpftime);
 
 private:	// User declarations
 public:		// User declarations

@@ -1,6 +1,6 @@
 object Fr_Main: TFr_Main
-  Left = 522
-  Top = 413
+  Left = 409
+  Top = 129
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1060#1072#1081#1083#1086#1074#1099#1081' '#1084#1077#1085#1077#1076#1078#1077#1088
@@ -38,48 +38,6 @@ object Fr_Main: TFr_Main
     Height = 1
     Brush.Color = clNone
   end
-  object BtPath1: TButton
-    Left = 544
-    Top = 24
-    Width = 73
-    Height = 25
-    Caption = #1055#1077#1088#1077#1081#1090#1080
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 9
-    OnClick = BtPathClick
-  end
-  object Lv1: TListView
-    Left = 0
-    Top = 48
-    Width = 616
-    Height = 668
-    Columns = <
-      item
-        Caption = #1048#1084#1103
-        MinWidth = 40
-        Width = 155
-      end
-      item
-        Alignment = taCenter
-        Caption = #1058#1080#1087
-        MinWidth = 40
-        Width = 155
-      end>
-    ColumnClick = False
-    ReadOnly = True
-    RowSelect = True
-    PopupMenu = PopupMenu1
-    SmallImages = ImgL1
-    TabOrder = 0
-    ViewStyle = vsReport
-    OnDblClick = ListDblClick
-    OnKeyUp = LvKeyUp
-  end
   object Lv2: TListView
     Left = 616
     Top = 48
@@ -107,26 +65,10 @@ object Fr_Main: TFr_Main
     OnDblClick = ListDblClick
     OnKeyUp = LvKeyUp
   end
-  object BtHome1: TButton
-    Left = 544
-    Top = 0
-    Width = 73
-    Height = 25
-    Caption = #1044#1086#1084#1086#1081
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    TabStop = False
-    OnClick = Home
-  end
   object Ed1: TEdit
     Left = 0
     Top = 0
-    Width = 281
+    Width = 273
     Height = 24
     Hint = 
       #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
@@ -147,7 +89,7 @@ object Fr_Main: TFr_Main
     OnClick = Ed
   end
   object BtS1: TButton
-    Left = 280
+    Left = 272
     Top = 0
     Width = 73
     Height = 25
@@ -165,7 +107,7 @@ object Fr_Main: TFr_Main
   object Ed2: TEdit
     Left = 616
     Top = 0
-    Width = 281
+    Width = 273
     Height = 24
     Hint = 
       #1042#1074#1077#1076#1080#1090#1077' '#1089#1083#1086#1074#1086' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072', '#1082' '#1087#1088#1080#1084#1077#1088#1091':'#13#10'Example'#13#10'example.txt'#13#10'*.tx' +
@@ -186,7 +128,7 @@ object Fr_Main: TFr_Main
     OnClick = Ed
   end
   object BtS2: TButton
-    Left = 896
+    Left = 888
     Top = 0
     Width = 73
     Height = 25
@@ -202,9 +144,9 @@ object Fr_Main: TFr_Main
     OnClick = SearchIdent
   end
   object EdPath1: TEdit
-    Left = 0
-    Top = 24
-    Width = 545
+    Left = -1
+    Top = 25
+    Width = 539
     Height = 24
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -216,8 +158,8 @@ object Fr_Main: TFr_Main
   end
   object EdPath2: TEdit
     Left = 616
-    Top = 24
-    Width = 545
+    Top = 25
+    Width = 539
     Height = 24
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -227,10 +169,47 @@ object Fr_Main: TFr_Main
     ParentFont = False
     TabOrder = 10
   end
+  object PrBar1: TProgressBar
+    Left = 344
+    Top = 0
+    Width = 195
+    Height = 25
+    Min = 0
+    Max = 11
+    Step = 1
+    TabOrder = 12
+    Visible = False
+  end
+  object PrBar2: TProgressBar
+    Left = 960
+    Top = 0
+    Width = 195
+    Height = 25
+    Min = 0
+    Max = 10
+    Step = 1
+    TabOrder = 13
+    Visible = False
+  end
+  object BtPath1: TButton
+    Left = 538
+    Top = 25
+    Width = 80
+    Height = 25
+    Caption = #1055#1077#1088#1077#1081#1090#1080
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 9
+    OnClick = BtPathClick
+  end
   object BtPath2: TButton
-    Left = 1160
-    Top = 24
-    Width = 73
+    Left = 1154
+    Top = 25
+    Width = 80
     Height = 25
     Caption = #1055#1077#1088#1077#1081#1090#1080
     Font.Charset = DEFAULT_CHARSET
@@ -242,10 +221,26 @@ object Fr_Main: TFr_Main
     TabOrder = 11
     OnClick = BtPathClick
   end
-  object BtHome2: TButton
-    Left = 1160
+  object BtHome1: TButton
+    Left = 538
     Top = 0
-    Width = 73
+    Width = 80
+    Height = 25
+    Caption = #1044#1086#1084#1086#1081
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    TabStop = False
+    OnClick = Home
+  end
+  object BtHome2: TButton
+    Left = 1154
+    Top = 0
+    Width = 80
     Height = 25
     Caption = #1044#1086#1084#1086#1081
     Font.Charset = DEFAULT_CHARSET
@@ -258,33 +253,38 @@ object Fr_Main: TFr_Main
     TabStop = False
     OnClick = Home
   end
-  object PrBar1: TProgressBar
-    Left = 368
-    Top = 0
-    Width = 163
-    Height = 25
-    Min = 0
-    Max = 10
-    Step = 1
-    TabOrder = 12
-    Visible = False
-  end
-  object PrBar2: TProgressBar
-    Left = 984
-    Top = 0
-    Width = 163
-    Height = 25
-    Min = 0
-    Max = 10
-    Step = 1
-    TabOrder = 13
-    Visible = False
+  object Lv1: TListView
+    Left = 0
+    Top = 49
+    Width = 616
+    Height = 668
+    Columns = <
+      item
+        Caption = #1048#1084#1103
+        MinWidth = 40
+        Width = 155
+      end
+      item
+        Alignment = taCenter
+        Caption = #1058#1080#1087
+        MinWidth = 40
+        Width = 155
+      end>
+    ColumnClick = False
+    ReadOnly = True
+    RowSelect = True
+    PopupMenu = PopupMenu1
+    SmallImages = ImgL1
+    TabOrder = 0
+    ViewStyle = vsReport
+    OnDblClick = ListDblClick
+    OnKeyUp = LvKeyUp
   end
   object ImgL1: TImageList
     Left = 8
     Top = 648
     Bitmap = {
-      494C010109000E00040010001000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010109000E00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -816,7 +816,8 @@ object Fr_Main: TFr_Main
       FFFFFFFF80018000C001FFFF800100008001FFFF80010000AAA9FFFF80010000
       9555FFFF80010000AAA9FFFF800100009555800380010000AAA93FF180010000
       95550000800100008003000080010000CA7F000080010000E0FF7FF880010000
-      FFFF800080010000FFFFC001FFFF0000}
+      FFFF800080010000FFFFC001FFFF000000000000000000000000000000000000
+      000000000000}
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu
@@ -839,12 +840,21 @@ object Fr_Main: TFr_Main
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100
       OnClick = Lv
     end
-    object N9: TMenuItem
+    object N111: TMenuItem
       Caption = '-'
     end
     object N4: TMenuItem
       Tag = 4
       Caption = #1059#1076#1072#1083#1080#1090#1100
+      Enabled = False
+      OnClick = Lv
+    end
+    object N222: TMenuItem
+      Caption = '-'
+    end
+    object N9: TMenuItem
+      Tag = 9
+      Caption = #1057#1074#1086#1081#1089#1090#1074#1072
       Enabled = False
       OnClick = Lv
     end
@@ -878,6 +888,14 @@ object Fr_Main: TFr_Main
       Tag = 8
       Caption = #1059#1076#1072#1083#1080#1090#1100
       Enabled = False
+      OnClick = Lv
+    end
+    object N12: TMenuItem
+      Caption = '-'
+    end
+    object N10: TMenuItem
+      Tag = 10
+      Caption = #1057#1074#1086#1081#1089#1090#1074#1072
       OnClick = Lv
     end
   end

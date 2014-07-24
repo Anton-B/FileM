@@ -89,5 +89,3 @@ void TFiles::FileList(AnsiString &path, TStringList* LD, TStringList* LF, TStrin
   }
   Application->ProcessMessages();
 }
-
-

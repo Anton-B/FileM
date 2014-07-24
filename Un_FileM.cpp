@@ -8,13 +8,6 @@
 #include <Masks.hpp>
 #pragma hdrstop
 
-/*#include <windows.h>
-#include <objidl.h>
-#include <intshcut.h>
-#include <shlobj.h>
-#include <iostream>
-#include <string>   */
-
 #include "Un_FileM.h"
 #include "Un_FileM_Properties.h"
 //---------------------------------------------------------------------------
@@ -68,7 +61,6 @@ void __fastcall TFr_Main::FormDestroy(TObject *Sender)
   LPath->Add(path1);
   LPath->Add(path2);
   LPath->SaveToFile("fm.fm");
-  //FileSetAttr("fm.fm",6);
 }
 //---------------------------------------------------------------------------
 
@@ -160,12 +152,16 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
         p[i-2]='\0';
       path=p;
       IdentLV(((TListView*)Sender),1);
-      CreateFList(((TListView*)Sender));
+      CreateFList(((TListView*)Sender)); 
     }
   }
   else if  (((TListView*)Sender)->Selected)
   {
     K=0;
+    /*if (ExtractFileExt(((TListView*)Sender)->Selected->Caption)==".lnk")
+    {
+      return;
+    }*/
     if (((TListView*)Sender)->Selected->ImageIndex==2||((TListView*)Sender)->Selected->ImageIndex==3||
                         ((TListView*)Sender)->Selected->ImageIndex==4||((TListView*)Sender)->Selected->ImageIndex==5||
                         ((TListView*)Sender)->Selected->ImageIndex==6||((TListView*)Sender)->Selected->ImageIndex==8)
@@ -187,7 +183,6 @@ void __fastcall TFr_Main::ListDblClick(TObject *Sender)
 
 void __fastcall TFr_Main::CreateFList(TObject *Sender)
 {
-  //TStringList *LDir=new TStringList, *LFile=new TStringList, *LExt=new TStringList, *LSize=new TStringList;
   IdentLV(((TListView*)Sender),0);
   fl=1;
   TFiles F;
@@ -216,7 +211,6 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
     ListItem->Caption = LDir->Strings[i];
     ListItem->SubItems->Add("Папка");
     SetIcon(ListItem->Caption,0);
-    //ListItem->ImageIndex=0;
   }
   for (int i=0;i<LFile->Count;i++)
   {
@@ -225,7 +219,6 @@ void __fastcall TFr_Main::CreateFList(TObject *Sender)
     ListItem->SubItems->Add(LExt->Strings[i]);
     ListItem->SubItems->Add(LSize->Strings[i]);
     SetIcon(ListItem->Caption,1);
-    //ListItem->ImageIndex=-1;
   }
 
   if (LDir->Count==0)
@@ -386,7 +379,8 @@ void __fastcall TFr_Main::Ident(int imInd, AnsiString p)
 {
   if (imInd==0)
   {
-    DelDir(p);
+    DelDir(p+"\\");
+    RemoveDir(p+"\\");
   }
   else
     DeleteFile((p).c_str());
@@ -466,15 +460,26 @@ void __fastcall TFr_Main::PopupEnable(TObject *Sender, bool n1245, bool n3)
 
 void __fastcall TFr_Main::DelDir(AnsiString Dir)
 {
-  SHFILEOPSTRUCT sh;
-  sh.hwnd=Fr_Main->Handle;
-  sh.wFunc = FO_DELETE;
-  sh.pFrom = (Dir+"\0").c_str();
-  sh.pTo = NULL;
-  sh.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
-  sh.hNameMappings = 0;
-  sh.lpszProgressTitle = NULL;
-  SHFileOperation(&sh);
+  TSearchRec sr;
+  ShowMessage(Dir);
+  if(FindFirst(Dir + "*.*", faAnyFile, sr) == 0)
+  {
+    do
+    {
+      if((sr.Attr & faDirectory) != faDirectory)
+      {
+        DeleteFile(Dir+sr.Name);
+        ShowMessage(Dir+sr.Name);
+      }
+      else
+        if(sr.Name != "." && sr.Name!= "..")
+        {
+          DelDir(Dir + sr.Name + "\\");
+          RemoveDir(Dir+sr.Name);
+        }
+    } while (FindNext(sr)==0);
+    FindClose(sr);
+  }
 }
 //---------------------------------------------------------------------------
 
@@ -567,7 +572,6 @@ void __fastcall TFr_Main::DirSize(AnsiString p, __int64 &s)
         struct stati64 statbuf;
         AnsiString f=p+sr.Name;
         _stati64(f.c_str(), &statbuf);
-
         s+=statbuf.st_size;
       }
       else
@@ -578,7 +582,6 @@ void __fastcall TFr_Main::DirSize(AnsiString p, __int64 &s)
     } while (FindNext(sr)==0);
     FindClose(sr);
   }
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TFr_Main::Home(TObject *Sender)
